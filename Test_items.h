@@ -1,5 +1,39 @@
 #pragma once
 #include "arrayItem_v3.h"
+#include "Ryan-Release_1.h"
+
+//Release 1 Testing - Ryan
+void testRangeFunctions(integer_itemWithLimits_Ryan* itemWithRange_ptr){
+	cout << "Function printing item type" << endl;
+	itemWithRange_ptr->printItemTypeName();
+	cout << endl;
+
+	cout << "Function requesting user to input range limits." << endl;
+	itemWithRange_ptr->enterSetRangeFromKeyboard();
+	cout << endl;
+
+	//cout << "Function requesting user to input item value" << endl;
+	//itemWithRange_ptr->enterItemFromKeyboardWithinRange();
+	//cout << endl;
+
+	cout << "Function printing item and range on screen." << endl;
+	itemWithRange_ptr->printItemAndRange();
+	cout << endl;
+
+	cout << "Function to get the minimum range limit." << endl;
+	cout << "Minimum Limit: " << itemWithRange_ptr->getMinValRange() << endl;
+
+	cout << "Function to get the maximum range limit." << endl;
+	cout << "Maximum Limit: " << itemWithRange_ptr->getMaxValRange() << endl;
+
+	cout << "Function to generate random item within the range limits." << endl;
+	itemWithRange_ptr->generateRandomItemWithinRange();
+	cout << endl;
+
+	cout << "Function printing item and range on screen." << endl;
+	itemWithRange_ptr->printItemAndRange();
+	cout << endl;
+}
 
 void testItemFunctions_part1(basic_item* item_ptr)
 {
@@ -68,26 +102,32 @@ void test_IndividualItem()
 	// When ready, repleace these with items of the type you have implemented 
 
 	integer_item testitem1, testitem1a; basic_sort_criteria testsort_crit;
+
+	//Testing release 1 implemented function - Ryan.
+	integer_itemWithLimits_Ryan testRange1;
+
 	//intmat_item testitem1, testitem1a; intmat_sort_criteria testsort_crit; //testsort_crit.setOption(intmat_sort_criteria::sort_determ);
 
 
-	// 
-	cout << "Test input funcitons:" << endl;
-	testItemFunctions_part1(&testitem1);
-	cout << endl;
-	cout << "Now with locked item:" << endl;
-	testitem1.setLocked(true);
-	testItemFunctions_part1(&testitem1);
-	testitem1.setLocked(false);
+	//Release 1 testing - Ryan
+	cout << "Test input range funcitons:" << endl;
+	testRangeFunctions(&testRange1);
 	cout << endl;
 
+	//testItemFunctions_part1(&testitem1);
+	//cout << "Now with locked item:" << endl;
+	//testitem1.setLocked(true);
+	//testItemFunctions_part1(&testitem1);
+	//testitem1.setLocked(false);
+	//cout << endl;
 
-	cout << "Test comparison of two items:" << endl;
+
+	//cout << "Test comparison of two items:" << endl;
 	// this uses the default comparison option:
 	//testItemFunctions_part2(&testitem1, &testitem1a, NULL);
 
 	// this uses the full default comparison rule (via user input)
-	testItemFunctions_part2(&testitem1, &testitem1a, &testsort_crit);
-	cout << endl;
+	//testItemFunctions_part2(&testitem1, &testitem1a, &testsort_crit);
+	//cout << endl;
 
 }
