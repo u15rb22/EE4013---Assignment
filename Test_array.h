@@ -1,0 +1,64 @@
+#pragma once
+#include "generalArraywithTemplate_v2.h"
+#include "SpecializedArray.h"
+
+
+
+void testArrayFunctions_part1()
+{
+	int arraysize;
+
+	// uncomment either line below:
+	int_item_array testArray;
+	//intmat_item_array testArray;
+
+	testArray.printArrayInfoOnScreen();
+	cout << "Enter arraysize and hit enter: " << endl;
+	cin >> arraysize;
+	testArray.allocateArray(arraysize);
+	testArray.printArrayInfoOnScreen();
+	testArray.printArrayOnScreen();
+	// 
+	cout << "Test random input funciton:" << endl;
+	testArray.fillRandomValueArray();
+	testArray.printArrayOnScreen();
+	cout << endl;
+	//	
+	cout << "Test input funciton:" << endl;
+	testArray.enterArrayFromKeyboard();
+	testArray.printArrayOnScreen();
+	//
+	cout << "Now with locked Array:" << endl;
+	testArray.setArrayLocked(true);
+	testArray.fillRandomValueArray();
+	testArray.printArrayOnScreen();
+	testArray.setArrayLocked(false);
+	cout << endl;
+}
+
+
+void testArrayFunctions_part2()
+{
+	int arraysize;
+	int_item_array testArray; basic_sort_criteria testsort_crit;
+	//intmat_item_array testArray; intmat_sort_criteria testsort_crit;
+
+
+	cout << "Enter arraysize and hit enter: " << endl;
+	cin >> arraysize;
+	testArray.allocateArray(arraysize);
+
+	cout << " Fill array randomly: " << endl;
+	testArray.fillRandomValueArray();
+	testArray.printArrayOnScreen();
+	cout << "Done." << endl;
+
+	cout << " Choose sort criterion: " << endl;
+	testsort_crit.setOptionFromKeyboard();
+	cout << "Done." << endl;
+
+	cout << " Sort array and print the result: " << endl;
+	testArray.bubblesort(&testsort_crit);
+	testArray.printArrayOnScreen();
+	cout << "Done." << endl;
+}
