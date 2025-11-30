@@ -1,6 +1,6 @@
 #pragma once
 #include "arrayItem_v3.h"
-#include "Ryan-Release_1.h"
+#include "RB_R1.h"
 
 //Release 1 Testing - Ryan
 void testRangeFunctions(integer_itemWithLimits_Ryan* itemWithRange_ptr){
@@ -12,9 +12,9 @@ void testRangeFunctions(integer_itemWithLimits_Ryan* itemWithRange_ptr){
 	itemWithRange_ptr->enterSetRangeFromKeyboard();
 	cout << endl;
 
-	//cout << "Function requesting user to input item value" << endl;
-	//itemWithRange_ptr->enterItemFromKeyboardWithinRange();
-	//cout << endl;
+	cout << "Function requesting user to input item value" << endl;
+	itemWithRange_ptr->enterItemFromKeyboardWithinRange();
+	cout << endl;
 
 	cout << "Function printing item and range on screen." << endl;
 	itemWithRange_ptr->printItemAndRange();
