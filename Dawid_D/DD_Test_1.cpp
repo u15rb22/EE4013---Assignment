@@ -16,10 +16,19 @@ int main()
 
     integer_itemWithLimits my_item1; 
 
+    int A = my_item1.GetMinVal();
+
+    cout << "GetMinVal() returned Value is: " << A << endl; //check for error message
+
     //my_item.generateRandomItem(); 
     my_item1.enterItemFromKeyboard(); 
     my_item1.printItemTypeName();
     my_item1.printItemOnScreen();
+
+    int B = my_item1.GetMaxVal();
+
+    cout << "GetMaxVal() returned Value is: " << B << endl;
+
 
     integer_itemWithLimits my_item2;
     
