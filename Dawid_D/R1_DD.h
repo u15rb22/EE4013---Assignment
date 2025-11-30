@@ -8,7 +8,7 @@
 #define R1_DD_H
 
 //#include "generalArraywithTemplate_v2.h"
-#include "generalArraywithTemplate_v2.h"
+#include "../generalArraywithTemplate_v2.h"
 
 class integer_itemWithLimits : public integer_item{
     protected: 
