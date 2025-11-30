@@ -12,7 +12,6 @@
 
 class integer_itemWithLimits : public integer_item{
     protected: 
-        integer_item the_int; 
         int min_val, max_val; 
 
     private:
