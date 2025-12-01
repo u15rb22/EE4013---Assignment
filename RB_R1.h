@@ -8,6 +8,7 @@ class integer_itemWithLimits_Ryan : public integer_item{
         bool rangeSet;
         int minValRange, maxValRange;
     public:
+        //Constructor 
         integer_itemWithLimits_Ryan(){
             //Range has not been set by the user
             rangeSet = false;
@@ -17,12 +18,14 @@ class integer_itemWithLimits_Ryan : public integer_item{
             //Setting the item name
             itemTypeName = "integer_itemWithLimits.";
         } 
+        //Deconstructor 
+        ~integer_itemWithLimits_Ryan(){;}
 
         void enterSetRangeFromKeyboard(){
-            char yes_no;
+            char limit_change;
             cout << "Do you want to change integer limits? (Type Y for yes)" << endl;
-            cin >> yes_no;
-            if((yes_no == 'Y') || (yes_no == 'y')){
+            cin >> limit_change;
+            if((limit_change == 'Y') || (limit_change == 'y')){
                 while(!rangeSet){
                 
                     cout << "Insert Maximum Range then hit enter." << endl;
@@ -31,7 +34,7 @@ class integer_itemWithLimits_Ryan : public integer_item{
 
 		            cout << "Insert Minimum Range then hit enter." << endl;
 		            cin >> minValRange;
-			        cout << endl;         
+			        cout << endl;
 
                     if(maxValRange < minValRange){
                         cout << "Error: Limits entered in the wrong order, they are now corrected." << endl;
@@ -48,7 +51,8 @@ class integer_itemWithLimits_Ryan : public integer_item{
             else{
                 cout << "Keeping the default limits [-50, 50]." << endl;
                 rangeSet = true;
-            }   
+            }
+             
         }
 
         void enterItemFromKeyboardWithinRange(){

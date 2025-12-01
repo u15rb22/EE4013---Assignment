@@ -2,7 +2,35 @@
 #include "generalArraywithTemplate_v2.h"
 #include "SpecializedArray.h"
 
+void testArrayWithLimits()
+{
+	int arraysize;
 
+	// uncomment either line below:
+	int_item_limits_array testArray;
+	//intmat_item_array testArray;
+	testArray.printArrayInfoOnScreen();
+	cout << "Enter arraysize and hit enter: " << endl;
+	cin >> arraysize;
+	testArray.allocateArray(arraysize);
+	testArray.printArrayInfoOnScreen();
+	testArray.printArrayOnScreen();
+	// 
+	testArray.fillRandomValueArray();
+	testArray.printArrayOnScreen();
+	cout << endl;
+	//	
+	cout << "Test input funciton:" << endl;
+	testArray.enterArrayFromKeyboard();
+	testArray.printArrayOnScreen();
+	//
+	cout << "Now with locked Array:" << endl;
+	testArray.setArrayLocked(true);
+	testArray.fillRandomValueArray();
+	testArray.printArrayOnScreen();
+	testArray.setArrayLocked(false);
+	cout << endl;
+}
 
 void testArrayFunctions_part1()
 {
