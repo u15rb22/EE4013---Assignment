@@ -1,6 +1,7 @@
 #pragma once
 #include "generalArraywithTemplate_v2.h"
 #include "SpecializedArray.h"
+#include "Zayne_Release1.h"
 
 
 
@@ -36,6 +37,26 @@ void testArrayFunctions_part1()
 	cout << endl;
 }
 
+void testArrayFunctions_withRange()
+{
+	int arraysize;
+
+	int_item_array_with_limits testArray; basic_sort_criteria testsort_crit;
+	cout << "Enter arraysize and hit enter: " << endl;
+	cin >> arraysize;
+	testArray.allocateArray(arraysize);
+	testArray.printArrayInfoOnScreen();
+	testArray.printArrayOnScreen();
+	//	
+	cout << "Test input funciton:" << endl;
+	testArray.enterArrayFromKeyboard();
+	testArray.printArrayOnScreen();
+	//
+	testsort_crit.setOptionFromKeyboard();
+	testArray.bubblesort(&testsort_crit);
+	testArray.printArrayOnScreen();
+	cout << endl;
+}
 
 void testArrayFunctions_part2()
 {
@@ -62,3 +83,4 @@ void testArrayFunctions_part2()
 	testArray.printArrayOnScreen();
 	cout << "Done." << endl;
 }
+
