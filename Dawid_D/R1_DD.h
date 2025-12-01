@@ -15,6 +15,39 @@ class integer_itemWithLimits : public integer_item{
         int min_val, max_val; 
         bool Lims_Set; 
 
+        int PassMax(int val1, int val2) // unused 
+        {
+            if(val1 >= val2)
+                return val1; 
+            else 
+                return val2;
+        }
+
+        int PassMin(int val1, int val2)  // unused
+        {
+            if(val1 <= val2)
+                return val1; 
+            else 
+                return val2;
+        }
+
+        bool inLimits(int inVal) const
+        {
+            if((inVal<=max_val)&&(inVal>=min_val))
+                return true;
+            else
+                return false;
+        }
+
+        bool itemInRange(int Lower, int Upper)
+        {
+            if((item_value<=Lower)&&(item_value>=Upper))
+                return true;
+            else
+                return false;
+
+        }
+
     private:
     // privitising "generateRandomItemWithinlimits()" to prevent setting int val outisde limits
         using integer_item::generateRandomItemWithinLimits;
@@ -70,7 +103,7 @@ class integer_itemWithLimits : public integer_item{
 			    cout << "Error in enterItemFromKeyboard: Item is locked" << endl;
 		    else
 		    {
-                bool Valid_int = false, new_Lims =false; 
+                bool Valid_int = false, new_Lims =false, ForceNewItem = false; 
                 char yesNo_in; 
 
                 // check if Limits need change 
@@ -80,8 +113,8 @@ class integer_itemWithLimits : public integer_item{
                 if((yesNo_in=='Y')||(yesNo_in=='y'))
                 {
                     bool valid_lim = false; 
-
                     int tempL, tempU ; 
+
                     while(!valid_lim)
                     {
                         cout << "Insert Lower Limit Value then hit enter."<< endl;
@@ -92,7 +125,33 @@ class integer_itemWithLimits : public integer_item{
                         cout << endl;
                     
                         if(tempL != tempU)
-                            valid_lim = true; 
+                        {
+                            if (tempL > tempU)  // make sure limits are correct way round
+			                {
+                                cout << "Notice: Limits where entered wrong way round, This has been corrected internaly." << endl; 
+				                int temp = tempL;
+				                tempL = tempU;
+				                tempU = temp;
+			                }
+                            if((isEmpty()) || itemInRange(tempL,tempU))
+                                valid_lim = true; 
+                            else
+                            {
+                                cout << "* Notice: Current Item dosn't fall within passed Limits *" << endl;
+                                cout << "Do you want to continue with Passed Limits & change item. Enter 'Y' to cont." << endl;
+                                cin >> yesNo_in; 
+
+                                if((yesNo_in=='Y')||(yesNo_in=='y'))
+                                    valid_lim = true; 
+                                else 
+                                {
+                                    valid_lim = false; 
+                                    ForceNewItem = true; 
+                                }
+
+                            }
+                            
+                        }
                         else
                             cout << "*Warning*: Limits cannot be the same Value." << endl; 
                     }
@@ -111,13 +170,13 @@ class integer_itemWithLimits : public integer_item{
                 }
                 yesNo_in = 'N'; // "restet" slection to reuse var  
 
-                if(new_Lims) // run only if new lims set w this call, Assume Min 1 must update .: if lims !set int must be & Q is redundant 
+                if((new_Lims)&&(!ForceNewItem)) // run only if new lims set w this call, Assume Min 1 must update .: if lims !set int must be & Q is redundant 
                 {
                     cout << "Do you want to Enter New Integer ? type Y if yes then hit enter" << endl; 
                     cin >> yesNo_in; 
                 }
 
-                if((yesNo_in=='Y')||(yesNo_in=='y')||(!new_Lims))
+                if((yesNo_in=='Y')||(yesNo_in=='y')||(!new_Lims)||(ForceNewItem))
                 {
                     while(!Valid_int)
                     {
@@ -125,7 +184,7 @@ class integer_itemWithLimits : public integer_item{
 			            cin >> item_value;
 			            cout << endl;
 			        
-                        if((item_value<=max_val)&&(item_value>=min_val))
+                        if(inLimits(item_value))
                             Valid_int = true; 
                         else
                             cout << "*Warning*: integer must fall within set limits" << endl << endl;    
@@ -140,6 +199,8 @@ class integer_itemWithLimits : public integer_item{
         {
             generateRandomItemWithinLimits(min_val, max_val); 
         }
+
+        //void generateRandomLimi
 
 
 

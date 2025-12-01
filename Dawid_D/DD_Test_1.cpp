@@ -6,7 +6,31 @@
 
 #include "R1_DD.h"
 
+void test2() // Test if able to set limits that don't include Previously set Item 
+{               // Fix : force item change if not within Limi
+    integer_itemWithLimits my_item1;
+
+    my_item1.enterItemFromKeyboard();
+    my_item1.printItemOnScreen();
+
+    my_item1.enterItemFromKeyboard();
+    my_item1.printItemOnScreen();
+
+
+}
+
+
 int main()
+{
+    //test1(); 
+    test2();
+
+    
+
+    return 0; 
+}
+
+void test1()
 {
     integer_item base_item; 
 
@@ -40,9 +64,5 @@ int main()
     //my_item3.generateRandomItemWithinLimits(10,20); // check if it possible to store item that's not within limit's.
     my_item3.printItemOnScreen(); 
 
-
-
-    
-
-    return 0; 
 }
+
