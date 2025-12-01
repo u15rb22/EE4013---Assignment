@@ -19,17 +19,6 @@ void test2() // Test if able to set limits that don't include Previously set Ite
 
 }
 
-
-int main()
-{
-    //test1(); 
-    test2();
-
-    
-
-    return 0; 
-}
-
 void test1()
 {
     integer_item base_item; 
@@ -64,5 +53,16 @@ void test1()
     //my_item3.generateRandomItemWithinLimits(10,20); // check if it possible to store item that's not within limit's.
     my_item3.printItemOnScreen(); 
 
+}
+
+
+int main()
+{
+    test1(); 
+    test2();
+
+    
+
+    return 0; 
 }
 

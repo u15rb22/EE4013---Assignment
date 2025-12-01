@@ -9,6 +9,8 @@
 
 //#include "generalArraywithTemplate_v2.h"
 #include "../generalArraywithTemplate_v2.h"
+#include <limits>
+
 
 class integer_itemWithLimits : public integer_item{
     protected: 
@@ -47,6 +49,7 @@ class integer_itemWithLimits : public integer_item{
                 return false;
 
         }
+
 
     private:
     // privitising "generateRandomItemWithinlimits()" to prevent setting int val outisde limits
@@ -103,7 +106,7 @@ class integer_itemWithLimits : public integer_item{
 			    cout << "Error in enterItemFromKeyboard: Item is locked" << endl;
 		    else
 		    {
-                bool Valid_int = false, new_Lims =false, ForceNewItem = false; 
+                bool Valid_int = false, new_Lims =false, ForceNewItem = false, OkInput = false; 
                 char yesNo_in; 
 
                 // check if Limits need change 
@@ -114,15 +117,43 @@ class integer_itemWithLimits : public integer_item{
                 {
                     bool valid_lim = false; 
                     int tempL, tempU ; 
+                    tempL = 'a'; 
+                    tempU = 'b'; 
 
                     while(!valid_lim)
                     {
-                        cout << "Insert Lower Limit Value then hit enter."<< endl;
-                        cin >> tempL;
-                        cout << endl;
-                        cout << "Insert Upper Limit Value then hit enter."<< endl;
-                        cin >> tempU;
-                        cout << endl;
+                        while (!OkInput)
+                        {
+                            cout << "Insert Lower Limit Value then hit enter."<< endl;
+                            cin >> tempL;
+                            if(cin.fail())
+                            {
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                                cout << "* Warning: Input must be an integer." << endl;
+                                cout << endl; 
+                            }
+                            else
+                                OkInput = true; 
+                        }
+
+                        OkInput  = false;
+                        while(!OkInput)
+                        {
+                            cout << "Insert Upper Limit Value then hit enter."<< endl;
+                            cin >> tempU;
+                            if(cin.fail())
+                            {
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                cout << "* Warning: Input must be an integer." << endl; 
+                                cout << endl;
+                            }
+                            else
+                                OkInput= true; 
+                            
+                             
+                        }
                     
                         if(tempL != tempU)
                         {
@@ -153,16 +184,10 @@ class integer_itemWithLimits : public integer_item{
                             
                         }
                         else
+                        {
                             cout << "*Warning*: Limits cannot be the same Value." << endl; 
+                        }
                     }
-
-                    if (tempL > tempU)  // make sure limits are correct way round
-			        {
-                        cout << "Notice: Limits where entered wrong way round, This has been corrected internaly." << endl; 
-				        int temp = tempL;
-				        tempL = tempU;
-				        tempU = temp;
-			        }
                     max_val = tempU; 
                     min_val = tempL; 
                     new_Lims = true; 
@@ -182,12 +207,20 @@ class integer_itemWithLimits : public integer_item{
                     {
 			            cout << "Insert integer element then hit enter." << endl;
 			            cin >> item_value;
-			            cout << endl;
-			        
-                        if(inLimits(item_value))
-                            Valid_int = true; 
-                        else
-                            cout << "*Warning*: integer must fall within set limits" << endl << endl;    
+                        if(cin.fail())
+                            {
+                                cin.clear();
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                cout << "* Warning: Input must be an integer." << endl; 
+                                cout << endl;
+                            }
+                            else
+                            {
+                                if(inLimits(item_value))
+                                    Valid_int = true; 
+                                else
+                                    cout << "*Warning*: integer must fall within set limits" << endl << endl;   
+                            } 
                     }
                     empty = false;
                 }
