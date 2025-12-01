@@ -13,7 +13,7 @@ void testRangeFunctions(integer_itemWithLimits_Ryan* itemWithRange_ptr){
 	cout << endl;
 
 	cout << "Function requesting user to input item value" << endl;
-	itemWithRange_ptr->enterItemFromKeyboardWithinRange();
+	itemWithRange_ptr->enterItemFromKeyboard();
 	cout << endl;
 
 	cout << "Function printing item and range on screen." << endl;

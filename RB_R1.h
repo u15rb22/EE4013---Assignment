@@ -2,6 +2,7 @@
 #define RB_R1_h
 
 #include "ArrayItem_v3.h"
+#include "generalArraywithTemplate_v2.h"
 
 class integer_itemWithLimits_Ryan : public integer_item{
     protected:
@@ -55,12 +56,16 @@ class integer_itemWithLimits_Ryan : public integer_item{
              
         }
 
-        void enterItemFromKeyboardWithinRange(){
-            enterItemFromKeyboard();
+        virtual void enterItemFromKeyboard(){
+            enterSetRangeFromKeyboard();
+
+            integer_item::enterItemFromKeyboard();
+            //Checks that the item is within the set limits.
+            //If not stay in a while loop until correct item is entered.
             while(item_value > maxValRange || item_value < minValRange){
                 empty = true;
                 cout << "Error: Integer out of range [" << minValRange << ", " << maxValRange << "]" << endl;
-                enterItemFromKeyboard();
+                integer_item::enterItemFromKeyboard();
             }
         }
 

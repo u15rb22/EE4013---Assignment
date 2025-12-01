@@ -10,6 +10,8 @@ int main(int argc, char const *argv[])
 	//test_IndividualItem();
 	//testArrayFunctions_part1();	
 	//testArrayFunctions_part2();
-	testArrayFunctions_withRange();	
+	//testArrayFunctions_withRange();	
+	//testArrayWithLimitsRyan();
+
 	return 0;
 }

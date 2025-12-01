@@ -8,7 +8,7 @@ void testArrayWithLimits()
 	int arraysize;
 
 	// uncomment either line below:
-	int_item_limits_array testArray;
+	int_item_array_with_limits testArray;
 	//intmat_item_array testArray;
 	testArray.printArrayInfoOnScreen();
 	cout << "Enter arraysize and hit enter: " << endl;
@@ -30,6 +30,36 @@ void testArrayWithLimits()
 	testArray.fillRandomValueArray();
 	testArray.printArrayOnScreen();
 	testArray.setArrayLocked(false);
+	cout << endl;
+}
+
+void testArrayWithLimitsRyan()
+{
+	int arraysize;
+
+	// uncomment either line below:
+	int_item_limits_array testArray; basic_sort_criteria testsort_crit;
+	//intmat_item_array testArray;
+	testArray.printArrayInfoOnScreen();
+	cout << "Enter arraysize and hit enter: " << endl;
+	cin >> arraysize;
+	testArray.allocateArray(arraysize);
+	testArray.printArrayInfoOnScreen();
+	testArray.printArrayOnScreen();
+	//
+	testArray.fillRandomValueArray();
+	testArray.printArrayOnScreen();
+	cout << endl;
+	//	
+	cout << "Test input funciton:" << endl;
+	testArray.enterArrayFromKeyboard();
+	testArray.printArrayOnScreen();
+	//
+	//
+	testsort_crit.setOptionFromKeyboard();
+	testArray.bubblesort(&testsort_crit);
+	testArray.printArrayOnScreen();
+	cout << endl;
 	cout << endl;
 }
 
