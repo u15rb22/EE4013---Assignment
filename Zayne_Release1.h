@@ -2,6 +2,7 @@
 #pragma once
 #include "arrayItem_v3.h"
 #include "generalArraywithTemplate_v2.h"
+#include <typeinfo>
 
 class integer_itemWithLimits_Zayne : public integer_item
 {
