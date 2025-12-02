@@ -22,6 +22,9 @@ typedef items_array <integer_itemWithLimits_Ryan> int_item_limits_array;
 //array of string_item 
 typedef items_array <string_item> string_array;
 
+//Array of group1_item
+typedef items_array <group1_item> group1_array;
+
 // specializing a function (example)
 /*
 template <>

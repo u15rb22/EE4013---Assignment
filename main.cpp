@@ -12,7 +12,8 @@ int main(int argc, char const *argv[])
 	//testArrayFunctions_part2();
 	//testArrayFunctions_withRange();	
 	//testArrayWithLimitsRyan();
-	testArrayWithStrings();
-	
+	//testArrayWithStrings();
+	testGroup1Item();
+
 	return 0;
 }

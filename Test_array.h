@@ -85,6 +85,27 @@ void testArrayWithStrings(){
 	//
 }
 
+void testGroup1Item(){
+	int arraysize;
+	group1_array testItems;
+
+	testItems.printArrayInfoOnScreen();
+	cout << "Enter arraysize and hit enter: " << endl;
+	cin >> arraysize;
+	testItems.allocateArray(arraysize);
+	testItems.printArrayInfoOnScreen();
+	testItems.printArrayOnScreen();
+	//
+	//testArray1.fillRandomValueArray();
+	//testArray1.printArrayOnScreen();
+	//cout << endl;
+	//	
+	cout << "Test input funciton:" << endl;
+	testItems.enterArrayFromKeyboard();
+	testItems.printArrayOnScreen();
+
+}
+
 void testArrayFunctions_part1()
 {
 	int arraysize;
