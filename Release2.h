@@ -192,7 +192,7 @@ protected:
     bool limits_initFlag;
     static int min_year, max_year;
 public:
-    year_of_enrolment(){itemTypeName = "year_of_enrolment";}
+    year_of_enrolment(){itemTypeName = "Year of enrolment";}
 
     void setLimits()
     {
