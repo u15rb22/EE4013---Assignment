@@ -346,7 +346,7 @@ class group1_item : public basic_item{
         }
 };
 
-int year_of_enrolment::min_year = 1980;
-int year_of_enrolment::max_year = 2005;
+int year_of_enrolment::min_year = 2010;
+int year_of_enrolment::max_year = 2040;
 
 #endif
