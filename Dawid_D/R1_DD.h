@@ -62,9 +62,14 @@ class integer_itemWithLimits : public integer_item{
             min_val = -50; //  assumed defult vals
             max_val = 50; 
             Lims_Set = false; // is false while vals defult 
+
+            incrementincludedBy();
         }
 
-        ~integer_itemWithLimits(){;}
+        ~integer_itemWithLimits()
+        {
+            decrementincludedBy();
+        }
         bool isLims_Set() const {return Lims_Set;}
 
         void setLimits(int Lower, int Upper )
