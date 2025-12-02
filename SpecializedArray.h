@@ -19,6 +19,9 @@ typedef items_array <integer_itemWithLimits_Zayne> int_item_array_with_limits;
 //array of integer_itemWithLimits_Ryan 
 typedef items_array <integer_itemWithLimits_Ryan> int_item_limits_array;
 
+//array of string_item 
+typedef items_array <string_item> string_array;
+
 // specializing a function (example)
 /*
 template <>

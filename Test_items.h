@@ -1,6 +1,7 @@
 #pragma once
 #include "arrayItem_v3.h"
 #include "RB_R1.h"
+#include "Release2.h"
 
 //Release 1 Testing - Ryan
 void testRangeFunctions(integer_itemWithLimits_Ryan* itemWithRange_ptr){
@@ -35,6 +36,32 @@ void testRangeFunctions(integer_itemWithLimits_Ryan* itemWithRange_ptr){
 	cout << endl;
 }
 
+void testStringClass(string_item* item_ptr){
+	cout << "Function printing item type" << endl;
+	item_ptr->printItemTypeName();
+	cout << endl;
+
+	cout << "Function requesting user to input string." << endl;
+	item_ptr->enterItemFromKeyboard();
+	cout << endl;
+
+	cout << "Function printing item and range on screen." << endl;
+	item_ptr->printItemOnScreen();
+	cout << endl;
+
+	cout << "Function to clear string item." << endl;
+	item_ptr->clearString();
+	cout << endl;
+
+	cout << "Function to generate random item." << endl;
+	item_ptr->generateRandomItem();
+	cout << endl;
+
+	cout << "Function printing item and range on screen." << endl;
+	item_ptr->printItemOnScreen();
+	cout << endl;
+}
+
 void testItemFunctions_part1(basic_item* item_ptr)
 {
 	cout << "Function printing item type" << endl;
@@ -55,7 +82,6 @@ void testItemFunctions_part1(basic_item* item_ptr)
 	cout << endl;
 	cout << endl;
 }
-
 
 void testItemFunctions_part2(basic_item* item_ptr_1, basic_item* item_ptr_2, basic_sort_criteria* sort_criteria)
 {
@@ -94,8 +120,6 @@ void testItemFunctions_part2(basic_item* item_ptr_1, basic_item* item_ptr_2, bas
 	cout << endl;
 }
 
-
-
 void test_IndividualItem()
 {
 	// Try each one below (ucomment one line at a time)
@@ -106,14 +130,20 @@ void test_IndividualItem()
 	//Testing release 1 implemented function - Ryan.
 	integer_itemWithLimits_Ryan testRange1;
 
+	//Testing release 2 string class - Ryan
+	string_item testString1;
 	//intmat_item testitem1, testitem1a; intmat_sort_criteria testsort_crit; //testsort_crit.setOption(intmat_sort_criteria::sort_determ);
 
 
 	//Release 1 testing - Ryan
-	cout << "Test input range funcitons:" << endl;
-	testRangeFunctions(&testRange1);
-	cout << endl;
+	//cout << "Test input range funcitons:" << endl;
+	//testRangeFunctions(&testRange1);
+	//cout << endl;
 
+	//Release 2 string class testing - Ryan
+	cout << "Test string class funcitons:" << endl;
+	testStringClass(&testString1);
+	cout << endl;
 	//testItemFunctions_part1(&testitem1);
 	//cout << "Now with locked item:" << endl;
 	//testitem1.setLocked(true);
