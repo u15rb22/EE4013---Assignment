@@ -263,4 +263,79 @@ class group1_item : public basic_item{
         }
 };
 
+class year_of_enrolment : public integer_item{
+protected:
+    bool limits_initFlag;
+    static int min_year, max_year;
+public:
+    year_of_enrolment(){itemTypeName = "year_of_enrolment";}
+
+    void setLimits()
+    {
+        if(!limits_initFlag)
+        {
+            // CHECKING WHETHER TO USE DEFAULT LIMITS OR NOT
+            char limit_options;
+            cout << "Add limits or use default limits? Y TO ADD, N FOR DEFAULT: ";
+            cin >> limit_options;
+            if(limit_options=='Y' || limit_options=='y')
+            {
+                cout << "Input the upper limit for the year: " << endl;
+                cin >> max_year;   // Directly input into the max_year
+
+                cout << "Input the lower limit for the year: " << endl;
+                cin >> min_year;   // Directly input into the minIntVal
+
+                // Below is checking whether the minIntVal is less than the max_year. If not, it swaps them
+                if (min_year > max_year)
+                {
+                    cout << "Error in setLimits(): min_year is greater than max_year. They will be swapped." << endl;
+                    int temp = min_year;
+                    min_year = max_year;
+                    max_year = temp;
+                }
+
+                if(min_year<0 || max_year<0)
+                    cout << "Error in setLimits(): Limit is a negative year. Input not set." << endl;
+                limits_initFlag = true; // Set the flag to true
+            }
+            else
+            {
+                cout<<"Using default years [1980,2005]"<<endl;
+                min_year = 1980;
+                max_year = 2005;
+                limits_initFlag = true;
+            }
+        }
+        else
+            cout << "Error in setLimits(): Limits have already been set." << endl;
+    }
+
+    virtual void enterItemFromKeyboard()
+    {
+        char limit_check;
+        cout<<"Carry on limits or set new limits? Y TO SET NEW, N OTHERWISE: ";
+        cin>>limit_check;
+
+        if(limit_check == 'Y'||limit_check == 'y')
+        {year_of_enrolment::setLimits();}
+            
+
+        cout << "Enter the value of the integer item within the set limits [" << min_year << ", " << max_year << "] :" << endl;
+        integer_item::enterItemFromKeyboard();
+        // Check if the input is within limits
+        if(item_value < min_year || item_value > max_year)
+        {
+            cout << "Error in enterItemFromKeyboard(): Input year is out of limits." << endl;
+            empty = true;               // Reset the item to empty if out of limits
+            enterItemFromKeyboard();    // Prompt user to enter again
+        }
+        else 
+            return;
+    }
+};
+
+int year_of_enrolment::min_year = 1980;
+int year_of_enrolment::max_year = 2005;
+
 #endif
