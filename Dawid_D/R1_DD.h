@@ -117,8 +117,7 @@ class integer_itemWithLimits : public integer_item{
                 {
                     bool valid_lim = false; 
                     int tempL, tempU ; 
-                    tempL = 'a'; 
-                    tempU = 'b'; 
+                    
 
                     while(!valid_lim)
                     {
