@@ -63,8 +63,16 @@ class integer_itemWithLimits : public integer_item{
             max_val = 50; 
             Lims_Set = false; // is false while vals defult 
         }
+
         ~integer_itemWithLimits(){;}
         bool isLims_Set() const {return Lims_Set;}
+
+        void setLimits(int Lower, int Upper )
+        {
+            min_val = Lower;
+            max_val = Upper; 
+            Lims_Set = true; 
+        }
 
         int GetMinVal()
         {
@@ -98,111 +106,10 @@ class integer_itemWithLimits : public integer_item{
                 cout << "Limits are set to defult Values" << endl; 
         }
 
-        // * Again like above or sepreate or mix have this but also 
-        // option to do 1 by 1 ? *
-        virtual void enterItemFromKeyboard()
-	    {
-		    if(isLocked())
-			    cout << "Error in enterItemFromKeyboard: Item is locked" << endl;
-		    else
-		    {
-                bool Valid_int = false, new_Lims =false, ForceNewItem = false, OkInput = false; 
-                char yesNo_in; 
-
-                // check if Limits need change 
-                cout << "Do you want to Enter New limits ? type Y if yes then hit enter" << endl; 
-                cin >> yesNo_in; 
-
-                if((yesNo_in=='Y')||(yesNo_in=='y'))
-                {
-                    bool valid_lim = false; 
-                    int tempL, tempU ; 
-                    
-
-                    while(!valid_lim)
-                    {
-                        while (!OkInput)
-                        {
-                            cout << "Insert Lower Limit Value then hit enter."<< endl;
-                            cin >> tempL;
-                            if(cin.fail())
-                            {
-                                cin.clear();
-                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-                                cout << "* Warning: Input must be an integer." << endl;
-                                cout << endl; 
-                            }
-                            else
-                                OkInput = true; 
-                        }
-
-                        OkInput  = false;
-                        while(!OkInput)
-                        {
-                            cout << "Insert Upper Limit Value then hit enter."<< endl;
-                            cin >> tempU;
-                            if(cin.fail())
-                            {
-                                cin.clear();
-                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                                cout << "* Warning: Input must be an integer." << endl; 
-                                cout << endl;
-                            }
-                            else
-                                OkInput= true; 
-                            
-                             
-                        }
-                    
-                        if(tempL != tempU)
-                        {
-                            if (tempL > tempU)  // make sure limits are correct way round
-			                {
-                                cout << "Notice: Limits where entered wrong way round, This has been corrected internaly." << endl; 
-				                int temp = tempL;
-				                tempL = tempU;
-				                tempU = temp;
-			                }
-                            if((isEmpty()) || itemInRange(tempL,tempU))
-                                valid_lim = true; 
-                            else
-                            {
-                                cout << "* Notice: Current Item dosn't fall within passed Limits *" << endl;
-                                cout << "Do you want to continue with Passed Limits & change item. Enter 'Y' to cont." << endl;
-                                cin >> yesNo_in; 
-
-                                if((yesNo_in=='Y')||(yesNo_in=='y'))
-                                    valid_lim = true; 
-                                else 
-                                {
-                                    valid_lim = false; 
-                                    ForceNewItem = true; 
-                                }
-
-                            }
-                            
-                        }
-                        else
-                        {
-                            cout << "*Warning*: Limits cannot be the same Value." << endl; 
-                        }
-                    }
-                    max_val = tempU; 
-                    min_val = tempL; 
-                    new_Lims = true; 
-                    Lims_Set = true; 
-                }
-                yesNo_in = 'N'; // "restet" slection to reuse var  
-
-                if((new_Lims)&&(!ForceNewItem)) // run only if new lims set w this call, Assume Min 1 must update .: if lims !set int must be & Q is redundant 
-                {
-                    cout << "Do you want to Enter New Integer ? type Y if yes then hit enter" << endl; 
-                    cin >> yesNo_in; 
-                }
-
-                if((yesNo_in=='Y')||(yesNo_in=='y')||(!new_Lims)||(ForceNewItem))
-                {
-                    while(!Valid_int)
+        virtual void enterValueFromKeyboard()
+        {
+            bool Valid_int = false;
+            while(!Valid_int)
                     {
 			            cout << "Insert integer element then hit enter." << endl;
 			            cin >> item_value;
@@ -222,7 +129,123 @@ class integer_itemWithLimits : public integer_item{
                             } 
                     }
                     empty = false;
+
+        }
+
+        virtual bool enterLimitsFromKeyboard() // retruns True if it also set Int Value
+        {
+            bool valid_lim = false, OkInput = false, ForceNewItem = false; 
+            int tempL, tempU ; 
+            char yesNo_in;
+                    
+
+            while(!valid_lim)
+            {
+                while (!OkInput)
+                {
+                    cout << "Insert Lower Limit Value then hit enter."<< endl;
+                    cin >> tempL;
+                    if(cin.fail())
+                    {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                        cout << "* Warning: Input must be an integer." << endl;
+                        cout << endl; 
+                    }
+                    else
+                        OkInput = true; 
                 }
+
+                OkInput  = false;
+                while(!OkInput)
+                {
+                    cout << "Insert Upper Limit Value then hit enter."<< endl;
+                    cin >> tempU;
+                    if(cin.fail())
+                    {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "* Warning: Input must be an integer." << endl; 
+                        cout << endl;
+                    }
+                    else
+                        OkInput= true; 
+                            
+                             
+                }
+                    
+                if(tempL != tempU)
+                {
+                    if (tempL > tempU)  // make sure limits are correct way round
+			        {
+                        cout << "Notice: Limits where entered wrong way round, This has been corrected internaly." << endl; 
+				        int temp = tempL;
+				        tempL = tempU;
+				        tempU = temp;
+			        }
+                    if((isEmpty()) || itemInRange(tempL,tempU))
+                        valid_lim = true; // exits while loop 
+                    else
+                    {
+                        cout << "* Notice: Current Item dosn't fall within passed Limits *" << endl;
+                        cout << "Do you want to continue with Passed Limits & change item. Enter 'Y' to cont." << endl;
+                        cin >> yesNo_in; 
+
+                        if((yesNo_in=='Y')||(yesNo_in=='y'))
+                        {
+                            valid_lim = true; 
+                            ForceNewItem = true;
+                        }
+                        else
+                            valid_lim = false;
+
+                    }
+                            
+                }
+                else
+                {
+                    cout << "*Warning*: Limits cannot be the same Value." << endl; 
+                }
+            }
+            setLimits(tempL, tempU);  
+            if(ForceNewItem)
+            {
+                enterValueFromKeyboard();
+            }
+            return ForceNewItem; 
+        }
+
+        virtual void enterItemFromKeyboard()
+	    {
+		    if(isLocked())
+			    cout << "Error in enterItemFromKeyboard: Item is locked" << endl;
+		    else
+		    {
+                bool intSet = false, newLims = false; 
+                char yesNo_in; 
+
+                // check if Limits need change 
+                cout << "Do you want to Enter New limits ? type Y if yes then hit enter" << endl; 
+                cin >> yesNo_in; 
+
+                if((yesNo_in=='Y')||(yesNo_in=='y'))
+                {
+                    intSet = enterLimitsFromKeyboard(); // if true dont ask to change int again 
+                    newLims = true; 
+                }
+                yesNo_in = 'N'; // "restet" slection to reuse var  
+
+                if(!intSet) // run only if new lims set w this call, Assume Min 1 must update .: if lims !set int must be & Q is redundant 
+                {
+                    cout << "Do you want to Enter New Integer ? type Y if yes then hit enter" << endl; 
+                    cin >> yesNo_in; 
+                }
+                
+                if((yesNo_in=='Y')||(yesNo_in=='y')||(!newLims))
+                {
+                    enterValueFromKeyboard(); 
+                }
+                
                 
 		    }		
 	    } 
