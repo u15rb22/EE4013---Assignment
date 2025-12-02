@@ -187,82 +187,6 @@ class string_item : public basic_item{
         }
 };
 
-
-class group1_item : public basic_item{
-    protected: 
-        string_item first_Name;
-        string_item last_Name;
-        //Add the other items when you can
-    public:
-        group1_item(){
-            string the_name = "Group1_item - comprising: ";
-		    the_name += first_Name.getName();
-		    the_name += "; ";
-		    the_name += last_Name.getName();
-		    the_name += ".";
-            //Add other fields when you can
-		    itemTypeName = the_name;
-        }
-
-        ~group1_item(){;}
-
-        virtual void printItemOnScreen() const{
-            if(isEmpty()){
-                cout << "Item is empty." << endl;
-            }
-            else{
-                cout << "First Name: " << endl;
-                first_Name.printItemOnScreen(); 
-                cout<< endl;
-                cout << "Last Name:" << endl;
-                last_Name.printItemOnScreen();
-                cout << endl;
-                //Add the other data when you can
-            }
-        }
-
-        virtual void enterItemFromKeyboard(){
-            if(isLocked()){
-                cout << "Error in enterItemFromKeyboard: Item is locked" << endl;
-            }
-            else{
-                cout << "Enter first name: " << endl;
-                first_Name.enterItemFromKeyboard();
-                cout << endl;
-                cout << "Enter last name: " << endl;
-                last_Name.enterItemFromKeyboard();
-                cout << endl;
-                //Add other fields when you can
-                empty = false;
-            }
-        }
-
-        virtual void generateRandomItem()
-	    {
-		    if (isLocked()){
-                cout << "Error in generateRandomItem: Item is locked" << endl;
-            }
-		    else
-		    {
-		    	first_Name.generateRandomItem();
-			    last_Name.generateRandomItem();
-			    //Add other fields when you can
-			    empty = false;
-		    }
-	    }
-
-        //Have not finished yet
-        virtual bool compatibilityCheck(const basic_item* other_item) const{
-            return false;
-        }
-	    virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
-            return false;
-        }	
-	    virtual bool IsEqualTo(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
-            return false;
-        }
-};
-
 class year_of_enrolment : public integer_item{
 protected:
     bool limits_initFlag;
@@ -333,6 +257,90 @@ public:
         else 
             return;
     }
+};
+
+class group1_item : public basic_item{
+    protected: 
+        string_item first_Name;
+        string_item last_Name;
+        year_of_enrolment yearOfEnrolement;
+        //Add the other items when you can
+    public:
+        group1_item(){
+            string the_name = "Group1_item - comprising: ";
+		    the_name += first_Name.getName();
+		    the_name += "; ";
+		    the_name += last_Name.getName();
+		    the_name += ";";
+            the_name += yearOfEnrolement.getName();
+            the_name += ".";
+            //Add other fields when you can
+		    itemTypeName = the_name;
+        }
+
+        ~group1_item(){;}
+
+        virtual void printItemOnScreen() const{
+            if(isEmpty()){
+                cout << "Item is empty." << endl;
+            }
+            else{
+                cout << "First Name: " << endl;
+                first_Name.printItemOnScreen(); 
+                cout<< endl;
+                cout << "Last Name:" << endl;
+                last_Name.printItemOnScreen();
+                cout << endl;
+                cout << "Year of enrolement: " << endl;
+                yearOfEnrolement.printItemOnScreen();
+                cout << endl;
+                //Add the other data when you can
+            }
+        }
+
+        virtual void enterItemFromKeyboard(){
+            if(isLocked()){
+                cout << "Error in enterItemFromKeyboard: Item is locked" << endl;
+            }
+            else{
+                cout << "Enter first name: " << endl;
+                first_Name.enterItemFromKeyboard();
+                cout << endl;
+                cout << "Enter last name: " << endl;
+                last_Name.enterItemFromKeyboard();
+                cout << endl;
+                cout << "Enter year of enrolement: " << endl;
+                yearOfEnrolement.enterItemFromKeyboard();
+                //Add other fields when you can
+                empty = false;
+            }
+        }
+
+        virtual void generateRandomItem()
+	    {
+		    if (isLocked()){
+                cout << "Error in generateRandomItem: Item is locked" << endl;
+            }
+		    else
+		    {
+		    	first_Name.generateRandomItem();
+			    last_Name.generateRandomItem();
+                yearOfEnrolement.generateRandomItem();
+			    //Add other fields when you can
+			    empty = false;
+		    }
+	    }
+
+        //Have not finished yet
+        virtual bool compatibilityCheck(const basic_item* other_item) const{
+            return false;
+        }
+	    virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
+            return false;
+        }	
+	    virtual bool IsEqualTo(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
+            return false;
+        }
 };
 
 int year_of_enrolment::min_year = 1980;
