@@ -177,6 +177,23 @@ class string_item : public basic_item{
             stringSet = false;
             empty = true;
         }
+
+        //Small function to return the string item value
+        string returnString(){
+            if(!stringSet){
+                cout << "Error in returnString: String has not been set." << endl;
+            }
+            return item_value;
+        }
+};
+
+
+class composite_item : public basic_item{
+    protected: 
+        string_item fName;
+        string_item lName;
+    public:
+        
 };
 
 #endif

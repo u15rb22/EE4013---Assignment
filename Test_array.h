@@ -63,6 +63,28 @@ void testArrayWithLimitsRyan()
 	cout << endl;
 }
 
+void testArrayWithStrings(){
+	int arraysize;
+	string_array testArray1;
+
+	testArray1.printArrayInfoOnScreen();
+	cout << "Enter arraysize and hit enter: " << endl;
+	cin >> arraysize;
+	testArray1.allocateArray(arraysize);
+	testArray1.printArrayInfoOnScreen();
+	testArray1.printArrayOnScreen();
+	//
+	//testArray1.fillRandomValueArray();
+	//testArray1.printArrayOnScreen();
+	//cout << endl;
+	//	
+	cout << "Test input funciton:" << endl;
+	testArray1.enterArrayFromKeyboard();
+	testArray1.printArrayOnScreen();
+	//
+	//
+}
+
 void testArrayFunctions_part1()
 {
 	int arraysize;
