@@ -257,6 +257,9 @@ public:
         else 
             return;
     }
+
+    virtual void generateRandomItem()
+    {integer_item::generateRandomItemWithinLimits(min_year, max_year);}
 };
 
 class group1_item : public basic_item{
