@@ -192,9 +192,10 @@ class group1_item : public basic_item{
     protected: 
         string_item first_Name;
         string_item last_Name;
+        //Add the other items when you can
     public:
         group1_item(){
-            string the_name = "compsite_item - comprising: ";
+            string the_name = "Group1_item - comprising: ";
 		    the_name += first_Name.getName();
 		    the_name += "; ";
 		    the_name += last_Name.getName();
@@ -245,11 +246,12 @@ class group1_item : public basic_item{
 		    {
 		    	first_Name.generateRandomItem();
 			    last_Name.generateRandomItem();
-			    // item filled
+			    //Add other fields when you can
 			    empty = false;
 		    }
 	    }
 
+        //Have not finished yet
         virtual bool compatibilityCheck(const basic_item* other_item) const{
             return false;
         }
