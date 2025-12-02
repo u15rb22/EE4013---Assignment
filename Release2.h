@@ -225,9 +225,9 @@ public:
             }
             else
             {
-                cout<<"Using default years [1980,2005]"<<endl;
-                min_year = 1980;
-                max_year = 2005;
+                cout<<"Using default years [2010, 2040]"<<endl;
+                min_year = 2010;
+                max_year = 2040;
                 limits_initFlag = true;
             }
         }
