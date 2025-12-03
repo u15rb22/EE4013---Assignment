@@ -48,12 +48,29 @@ class year_Item: public integer_itemWithLimits{
             return leap_year; 
         }
 
+        virtual void printItemOnScreen() const 
+        {
+            if(isEmpty())
+                cout << "Item is empty." << endl; 
+            else
+            {
+                cout << " The Year is : "<< item_value << "." ; 
+                cout << " which is " ;
+
+                if(leap_year)
+                    cout << "a Leap Year.";
+                else 
+                    cout << "NOT a Leap Year.";
+                cout << endl;
+            }
+        }
+
         virtual void enterValueFromKeyboard()
         {
             bool Valid_int = false;
             while(!Valid_int)
             {
-		        cout << "Insert Year then hit enter." << endl;
+		        cout << "Insert a Year then hit enter." << endl;
 		        cin >> item_value;
                 if(cin.fail())
                 {
@@ -80,14 +97,38 @@ class year_Item: public integer_itemWithLimits{
 
         virtual void generateRandomItem()// generates random Year
         {
-            generateRandomItem();
-            leap_year = is_leapYear(item_value);
+            if(isLocked())
+                cout << "Error in generateRandomitem: Item is Locked." << endl;
+            else 
+            {
+                generateRandomItem();
+                leap_year = is_leapYear(item_value);
+            }
         }
         
 
 };
 
+enum months { January = 1, February, March, April, May, June, July, August, September, October, November, December };
+
 class month_Item: public integer_itemWithLimits{
+    protected:
+        string month_text; 
+
+        virtual string PassMonthtext(int monthVal)
+        {
+            
+        }
+    public: 
+        month_Item()
+        {
+            itemTypeName = "month_item";
+            setLimits(1,12); 
+        }
+
+        ~month_Item(){;}
+
+        
 
 };
 

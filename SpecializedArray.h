@@ -7,6 +7,8 @@
 #include "RB_R1.h"
 #include "Zayne_Release1.h"
 
+#include "Release2.h"
+
 // array of integer_item
 typedef items_array <integer_item> int_item_array;
 

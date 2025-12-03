@@ -263,6 +263,92 @@ public:
     {integer_item::generateRandomItemWithinLimits(min_year, max_year);}
 };
 
+class group1_sorting_criteria : public basic_sort_criteria{
+public:
+    enum compsiteEqualityOptions{inf_val=0, family_name, DoB, both_equal, sup_val};
+protected:
+	bool sort_fam_first;	
+	compsiteEqualityOptions equlOpt;
+public:
+    basic_sort_criteria fam_name_crit;
+    basic_sort_criteria DoB_crit;
+public:
+    group1_sorting_criteria(){sort_fam_first=true; equlOpt=both_equal;}
+	void setSortFamFirst(bool val){sort_fam_first=val;}	
+	bool getSortFamFirst() const {return sort_fam_first;}	
+	void setEqualityOption(compsiteEqualityOptions val)
+	{
+		if(inf_val<val && val<sup_val)
+			equlOpt=val;
+	}	
+    compsiteEqualityOptions getEqualityOption() const {return equlOpt;}	
+    virtual void setAscending(bool value ){	fam_name_crit.setAscending(value); DoB_crit.setAscending(value);}
+    virtual void setOptionFromKeyboard()
+    {
+        cout << "Enter sort option for compsite_item: " << endl;
+		cout << " Enter Sort option for Date of Birth : "; DoB_crit.setOptionFromKeyboard();
+		cout << " Enter Sort option for Family Name   : "; fam_name_crit.setOptionFromKeyboard();
+
+        char sortopt;
+		cout << " Choose option to compare Date of Birth first (and then Family name) when sorting two items:" << endl;
+		cout << " Type Y and press ENTER (otherwise Family name is compared first): ";
+        cin >> sortopt;
+		if( (sortopt=='y') || (sortopt == 'Y') )
+			setSortFamFirst(true);
+		else
+			setSortFamFirst(false);
+		cout << endl;
+		cout << " Choose option to estabilish strict equality:" << endl;
+		cout << "  Type F to base decision on family name only;" << endl;
+		cout << "  Type D to base decision on date of birth only;" << endl;
+		cout << "  Type B to base decision on both. Then press ENTER: " ;
+		cin >> sortopt;
+		cout << endl;
+		switch (sortopt) {
+		case 'D':
+		case 'd':
+			setEqualityOption(DoB);
+			break;
+		case 'F':
+		case 'f':
+			setEqualityOption(family_name);
+			break;
+		case 'B':
+		case 'b':
+			setEqualityOption(both_equal);
+			break;
+		default:
+			setEqualityOption(both_equal);
+		}	
+    }
+	virtual void printOptionToScreen() const
+	{
+		cout << "Sorting option for compsite_item: " << endl;
+		cout << " Family name: "; fam_name_crit.printOptionToScreen(); cout << endl; 
+		cout << " DoB: "; DoB_crit.printOptionToScreen(); cout << endl; 	
+		cout << " When sorting two composite items: ";	
+		if(sort_fam_first)
+			cout << "Compare family name first (and then DoB)" << endl;	
+		else
+			cout << "Compare DoB first (and then family name)" << endl;	
+		
+		cout << " When estabilishing strict equality between two composite items: ";	
+		switch (getEqualityOption()) {
+		case family_name:
+			cout << "base decision on family name only." << endl;	
+			break;
+		case DoB:
+			cout << "base decision on date of birth only." << endl;	
+			break;
+		case both_equal:
+			cout << "base decision on both family name and date of birth." << endl;	
+			break;
+		default:
+			cout << "ERROR: Option not set." << endl;	
+		}		
+	}
+};
+
 class group1_item : public basic_item{
     protected: 
         string_item first_Name;
