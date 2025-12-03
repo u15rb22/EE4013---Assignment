@@ -477,7 +477,9 @@ class group1_item : public basic_item{
                 if(typecasted_sort != NULL){
                     //Copying the criteria for each component into a local copy group1_crit
                     group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_year_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_month_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_day_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
 
                     group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
                 }
@@ -516,7 +518,7 @@ class group1_item : public basic_item{
             //The DoB is smaller 
             return false;
         }	
-        
+
 	    virtual bool IsEqualTo(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
             bool result_LName_equal, result_DoB_equal;
             group1_sorting_criteria group1_crit;
@@ -541,7 +543,9 @@ class group1_item : public basic_item{
                 if(typecasted_sort != NULL){
                     //Copying the criteria for each component into a local copy group1_crit
                     group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_year_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_month_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_day_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
 
                     group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
                     group1_crit.setEqualityOption(typecasted_sort->getEqualityOption());
