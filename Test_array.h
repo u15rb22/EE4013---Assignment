@@ -87,7 +87,7 @@ void testArrayWithStrings(){
 
 void testGroup1Item(){
 	int arraysize;
-	group1_array testItems; compsite_item_sort_criteria testsort_crit;
+	group1_array testItems; group1_sorting_criteria testsort_crit;
 
 	testItems.printArrayInfoOnScreen();
 	cout << "Enter arraysize and hit enter: " << endl;
