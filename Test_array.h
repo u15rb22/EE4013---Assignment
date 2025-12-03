@@ -87,7 +87,7 @@ void testArrayWithStrings(){
 
 void testGroup1Item(){
 	int arraysize;
-	group1_array testItems;
+	group1_array testItems; compsite_item_sort_criteria testsort_crit;
 
 	testItems.printArrayInfoOnScreen();
 	cout << "Enter arraysize and hit enter: " << endl;
@@ -96,14 +96,18 @@ void testGroup1Item(){
 	testItems.printArrayInfoOnScreen();
 	testItems.printArrayOnScreen();
 	//
-	//testArray1.fillRandomValueArray();
-	//testArray1.printArrayOnScreen();
-	//cout << endl;
-	//	
 	cout << "Test input funciton:" << endl;
 	testItems.enterArrayFromKeyboard();
 	testItems.printArrayOnScreen();
-
+	//
+	cout << " Choose sort criterion: " << endl;
+	testsort_crit.setOptionFromKeyboard();
+	cout << "Done." << endl;
+	//
+	cout << " Sort array and print the result: " << endl;
+	testItems.bubblesort(&testsort_crit);
+	testItems.printArrayOnScreen();
+	cout << "Done." << endl;
 }
 
 void testArrayFunctions_part1()
@@ -162,8 +166,8 @@ void testArrayFunctions_withRange()
 void testArrayFunctions_part2()
 {
 	int arraysize;
-	int_item_array testArray; basic_sort_criteria testsort_crit;
-	//intmat_item_array testArray; intmat_sort_criteria testsort_crit;
+	//int_item_array testArray; basic_sort_criteria testsort_crit;
+	intmat_item_array testArray; intmat_sort_criteria testsort_crit;
 
 
 	cout << "Enter arraysize and hit enter: " << endl;

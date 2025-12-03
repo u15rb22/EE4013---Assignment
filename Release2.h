@@ -38,7 +38,8 @@ class string_item : public basic_item{
             if(!isLocked()){
 
                 if(!stringSet){
-                    cout << "Enter string: " << endl;
+                    //Print is commented out for better readability in the group1 print function
+                    //cout << "Enter string: " << endl;
                     cin >> item_value;
                     cout << endl;
 
@@ -179,7 +180,7 @@ class string_item : public basic_item{
         }
 
         //Small function to return the string item value
-        string returnString(){
+        string returnString() const{
             if(!stringSet){
                 cout << "Error in returnString: String has not been set." << endl;
             }
@@ -274,7 +275,7 @@ class group1_item : public basic_item{
 		    the_name += first_Name.getName();
 		    the_name += "; ";
 		    the_name += last_Name.getName();
-		    the_name += ";";
+		    the_name += "; ";
             the_name += yearOfEnrolement.getName();
             the_name += ".";
             //Add other fields when you can
@@ -283,20 +284,30 @@ class group1_item : public basic_item{
 
         ~group1_item(){;}
 
+        //These functions below let us get the pointer to the 
+        //Different items used in group 1, the pointer lets us
+        //Access but not modify the items values.
+        const string_item* getPointer2_FName() const{
+            const string_item* the_ptr = &first_Name;
+		    return the_ptr;
+        }
+        const string_item* getPointer2_LName() const{
+            const string_item* the_ptr = &last_Name;
+		    return the_ptr;
+        }
+        const year_of_enrolment* getPointer2_YoE() const{
+            const year_of_enrolment* the_ptr = &yearOfEnrolement;
+            return the_ptr;
+        }
+        
         virtual void printItemOnScreen() const{
             if(isEmpty()){
                 cout << "Item is empty." << endl;
             }
             else{
-                cout << "First Name: " << endl;
-                first_Name.printItemOnScreen(); 
-                cout<< endl;
-                cout << "Last Name:" << endl;
-                last_Name.printItemOnScreen();
-                cout << endl;
-                cout << "Year of enrolement: " << endl;
-                yearOfEnrolement.printItemOnScreen();
-                cout << endl;
+                cout << "First Name: " << first_Name.returnString() << endl;
+                cout << "Last Name: " << last_Name.returnString() << endl;
+                cout << "Year of enrolement: " << yearOfEnrolement.getItemVal() << endl;
                 //Add the other data when you can
             }
         }
@@ -336,7 +347,21 @@ class group1_item : public basic_item{
 
         //Have not finished yet
         virtual bool compatibilityCheck(const basic_item* other_item) const{
-            return false;
+            //True if the same, false if not
+            bool result = false;
+
+            //Check to see if the other item is allocated, if not skip
+            if(other_item != NULL){
+                //Type casting the other item to confirm its the same as the string
+                const group1_item* typecast_OtherItem = typecastItem(other_item, this);
+
+                if(typecast_OtherItem != NULL){result = true;}
+                else{
+                    cout << "Check failed for Item type: " << itemTypeName << endl;
+                }
+            }
+
+            return result;
         }
 	    virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
             return false;
