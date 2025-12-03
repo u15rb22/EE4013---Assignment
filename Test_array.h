@@ -65,7 +65,7 @@ void testArrayWithLimitsRyan()
 
 void testArrayWithStrings(){
 	int arraysize;
-	string_array testArray1;
+	string_array testArray1; basic_sort_criteria testsort_crit;
 
 	testArray1.printArrayInfoOnScreen();
 	cout << "Enter arraysize and hit enter: " << endl;
@@ -82,7 +82,14 @@ void testArrayWithStrings(){
 	testArray1.enterArrayFromKeyboard();
 	testArray1.printArrayOnScreen();
 	//
-	//
+	cout << " Choose sort criterion: " << endl;
+	testsort_crit.setOptionFromKeyboard();
+	cout << "Done." << endl;
+
+	cout << " Sort array and print the result: " << endl;
+	testArray1.bubblesort(&testsort_crit);
+	testArray1.printArrayOnScreen();
+	cout << "Done." << endl;
 }
 
 void testGroup1Item(){
