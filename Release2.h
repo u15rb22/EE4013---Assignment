@@ -271,7 +271,9 @@ protected:
 	compsiteEqualityOptions equlOpt;
 public:
     basic_sort_criteria fam_name_crit;
-    basic_sort_criteria DoB_crit;
+    basic_sort_criteria DoB_year_crit;
+    basic_sort_criteria DoB_month_crit;
+    basic_sort_criteria DoB_day_crit;
 public:
     group1_sorting_criteria(){sort_fam_first=true; equlOpt=both_equal;}
 	void setSortFamFirst(bool val){sort_fam_first=val;}	
@@ -282,12 +284,14 @@ public:
 			equlOpt=val;
 	}	
     compsiteEqualityOptions getEqualityOption() const {return equlOpt;}	
-    virtual void setAscending(bool value ){	fam_name_crit.setAscending(value); DoB_crit.setAscending(value);}
+    virtual void setAscending(bool value ){	fam_name_crit.setAscending(value); DoB_year_crit.setAscending(value); DoB_month_crit.setAscending(value); DoB_day_crit.setAscending(value);}
     virtual void setOptionFromKeyboard()
     {
         cout << "Enter sort option for compsite_item: " << endl;
-		cout << " Enter Sort option for Date of Birth : "; DoB_crit.setOptionFromKeyboard();
-		cout << " Enter Sort option for Family Name   : "; fam_name_crit.setOptionFromKeyboard();
+		cout << " Enter Sort option for Date of Birth year  : "; DoB_year_crit.setOptionFromKeyboard();
+        cout << " Enter Sort option for Date of Birth month : "; DoB_year_crit.setOptionFromKeyboard();
+        cout << " Enter Sort option for Date of Birth day   : "; DoB_year_crit.setOptionFromKeyboard();
+		cout << " Enter Sort option for Family Name         : "; fam_name_crit.setOptionFromKeyboard();
 
         char sortopt;
 		cout << " Choose option to compare Date of Birth first (and then Family name) when sorting two items:" << endl;
@@ -325,7 +329,7 @@ public:
 	{
 		cout << "Sorting option for compsite_item: " << endl;
 		cout << " Family name: "; fam_name_crit.printOptionToScreen(); cout << endl; 
-		cout << " DoB: "; DoB_crit.printOptionToScreen(); cout << endl; 	
+		cout << " DoB: "; DoB_year_crit.printOptionToScreen(); cout << endl; 	
 		cout << " When sorting two composite items: ";	
 		if(sort_fam_first)
 			cout << "Compare family name first (and then DoB)" << endl;	
