@@ -450,10 +450,123 @@ class group1_item : public basic_item{
             return result;
         }
 	    virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
+            bool result_LName_larger, result_DoB_larger, result_LName_equal, result_DoB_equal;
+            group1_sorting_criteria group1_crit;
+
+            if(other_item == NULL){return false;}
+
+            const group1_item* typecast_other_item = typecastItem(other_item, this);
+
+            if(typecast_other_item == NULL){
+                cout << "Error: Other item is not of the same type." << endl;
+                return false;
+            }
+
+            if(this->isEmpty() || (typecast_other_item->isEmpty())){
+                cout << "Error: Either or both items are empty" << endl;
+                return false;
+            }
+
+            //Now checking if all components of the other item is larger than the current
+            if(sort_criteria != NULL){
+                const group1_sorting_criteria* typecasted_sort = typecastItem(sort_criteria, &group1_crit);
+                if(typecasted_sort != NULL){
+                    //Copying the criteria for each component into a local copy group1_crit
+                    group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+
+                    group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
+                }
+            }
+
+            //Comparing the family name first
+            //Step1: Extracting the pointer from other
+            const string_item* the_other_LName_ptr = typecast_other_item->getPointer2_LName();
+            //Step2: Check if it is larger than the string part of the criteria
+            result_LName_larger = last_Name.IsLargerThan(the_other_LName_ptr, &(group1_crit.fam_name_crit));
+            //Step3: Check if it is equal to the string part of the criteria
+            result_LName_equal = last_Name.IsEqualTo(the_other_LName_ptr, &(group1_crit.fam_name_crit));
+
+            //Will do the same as above when DoB is finished
+
+            
+            if(group1_crit.getSortFamFirst()){
+                //The last name component is larger
+                if(result_LName_larger){
+                    return true;
+                } 
+                //If last names are equal let the DoB decide
+                if(result_LName_equal){
+                    return result_DoB_larger;
+                }
+                //The DoB component is smaller
+                return false;
+            }
+            //The DoB is sorted first
+            if(result_DoB_larger){
+                return true; //DoB is larger
+            }
+            if(result_DoB_equal){
+                return result_LName_larger; //DoB are equal so let last name decide
+            }
+            //The DoB is smaller 
             return false;
         }	
+        
 	    virtual bool IsEqualTo(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
-            return false;
+            bool result_LName_equal, result_DoB_equal;
+            group1_sorting_criteria group1_crit;
+
+            if(other_item == NULL){return false;}
+
+            const group1_item* typecast_other_item = typecastItem(other_item, this);
+
+            if(typecast_other_item == NULL){
+                cout << "Error: Other item is not of the same type." << endl;
+                return false;
+            }
+
+            if(this->isEmpty() || (typecast_other_item->isEmpty())){
+                cout << "Error: Either or both items are empty" << endl;
+                return false;
+            }
+
+            //Now checking if all components of the other item is larger than the current
+            if(sort_criteria != NULL){
+                const group1_sorting_criteria* typecasted_sort = typecastItem(sort_criteria, &group1_crit);
+                if(typecasted_sort != NULL){
+                    //Copying the criteria for each component into a local copy group1_crit
+                    group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+
+                    group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
+                    group1_crit.setEqualityOption(typecasted_sort->getEqualityOption());
+                }
+            }
+
+            //Comparing the family name first
+            //Step1: Extracting the pointer from other
+            const string_item* the_other_LName_ptr = typecast_other_item->getPointer2_LName();
+            //Step2: Check if it is equal to the string part of the criteria
+            result_LName_equal = last_Name.IsEqualTo(the_other_LName_ptr, &(group1_crit.fam_name_crit));
+
+
+            //Will compare the DoB when it is done.
+
+            switch(group1_crit.getEqualityOption()){
+                case group1_sorting_criteria::family_name:
+                    return result_LName_equal;
+                    break;
+                case group1_sorting_criteria::DoB:
+                    return result_DoB_equal;
+                    break;
+                case group1_sorting_criteria::both_equal:
+                    return (result_LName_equal&&result_DoB_equal);
+                    break;
+                default:
+                    cout << "Error: Options not set." << endl;
+                    return false;
+            }
         }
 };
 
