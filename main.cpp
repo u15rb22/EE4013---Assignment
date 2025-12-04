@@ -2,7 +2,6 @@
 #include "Test_array.h"
 
 
-
 int main(int argc, char const *argv[])
 {
 	// start here and uncomment one by one
@@ -13,7 +12,7 @@ int main(int argc, char const *argv[])
 	//testArrayFunctions_withRange();	
 	//testArrayWithLimitsRyan();
 	//testArrayWithStrings();
-	testGroup1Item();
+	//testGroup1Item();
 
 	return 0;
 }

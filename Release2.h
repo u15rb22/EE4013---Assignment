@@ -263,6 +263,96 @@ public:
     {integer_item::generateRandomItemWithinLimits(min_year, max_year);}
 };
 
+class group1_sorting_criteria : public basic_sort_criteria{
+public:
+    enum compsiteEqualityOptions{inf_val=0, family_name, DoB, both_equal, sup_val};
+protected:
+	bool sort_fam_first;	
+	compsiteEqualityOptions equlOpt;
+public:
+    basic_sort_criteria fam_name_crit;
+    basic_sort_criteria DoB_year_crit;
+    basic_sort_criteria DoB_month_crit;
+    basic_sort_criteria DoB_day_crit;
+public:
+    group1_sorting_criteria(){sort_fam_first=true; equlOpt=both_equal;}
+	void setSortFamFirst(bool val){sort_fam_first=val;}	
+	bool getSortFamFirst() const {return sort_fam_first;}	
+	void setEqualityOption(compsiteEqualityOptions val)
+	{
+		if(inf_val<val && val<sup_val)
+			equlOpt=val;
+	}	
+    compsiteEqualityOptions getEqualityOption() const {return equlOpt;}	
+    virtual void setAscending(bool value ){	fam_name_crit.setAscending(value); DoB_year_crit.setAscending(value); DoB_month_crit.setAscending(value); DoB_day_crit.setAscending(value);}
+    virtual void setOptionFromKeyboard()
+    {
+        cout << "Enter sort option for compsite_item: " << endl;
+		cout << " Enter Sort option for Date of Birth year  : "; DoB_year_crit.setOptionFromKeyboard();
+        cout << " Enter Sort option for Date of Birth month : "; DoB_year_crit.setOptionFromKeyboard();
+        cout << " Enter Sort option for Date of Birth day   : "; DoB_year_crit.setOptionFromKeyboard();
+		cout << " Enter Sort option for Family Name         : "; fam_name_crit.setOptionFromKeyboard();
+
+        char sortopt;
+		cout << " Choose option to compare Date of Birth first (and then Family name) when sorting two items:" << endl;
+		cout << " Type Y and press ENTER (otherwise Family name is compared first): ";
+        cin >> sortopt;
+		if( (sortopt=='y') || (sortopt == 'Y') )
+			setSortFamFirst(true);
+		else
+			setSortFamFirst(false);
+		cout << endl;
+		cout << " Choose option to estabilish strict equality:" << endl;
+		cout << "  Type F to base decision on family name only;" << endl;
+		cout << "  Type D to base decision on date of birth only;" << endl;
+		cout << "  Type B to base decision on both. Then press ENTER: " ;
+		cin >> sortopt;
+		cout << endl;
+		switch (sortopt) {
+		case 'D':
+		case 'd':
+			setEqualityOption(DoB);
+			break;
+		case 'F':
+		case 'f':
+			setEqualityOption(family_name);
+			break;
+		case 'B':
+		case 'b':
+			setEqualityOption(both_equal);
+			break;
+		default:
+			setEqualityOption(both_equal);
+		}	
+    }
+	virtual void printOptionToScreen() const
+	{
+		cout << "Sorting option for compsite_item: " << endl;
+		cout << " Family name: "; fam_name_crit.printOptionToScreen(); cout << endl; 
+		cout << " DoB: "; DoB_year_crit.printOptionToScreen(); cout << endl; 	
+		cout << " When sorting two composite items: ";	
+		if(sort_fam_first)
+			cout << "Compare family name first (and then DoB)" << endl;	
+		else
+			cout << "Compare DoB first (and then family name)" << endl;	
+		
+		cout << " When estabilishing strict equality between two composite items: ";	
+		switch (getEqualityOption()) {
+		case family_name:
+			cout << "base decision on family name only." << endl;	
+			break;
+		case DoB:
+			cout << "base decision on date of birth only." << endl;	
+			break;
+		case both_equal:
+			cout << "base decision on both family name and date of birth." << endl;	
+			break;
+		default:
+			cout << "ERROR: Option not set." << endl;	
+		}		
+	}
+};
+
 class group1_item : public basic_item{
     protected: 
         string_item first_Name;
@@ -364,10 +454,127 @@ class group1_item : public basic_item{
             return result;
         }
 	    virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
+            bool result_LName_larger, result_DoB_larger, result_LName_equal, result_DoB_equal;
+            group1_sorting_criteria group1_crit;
+
+            if(other_item == NULL){return false;}
+
+            const group1_item* typecast_other_item = typecastItem(other_item, this);
+
+            if(typecast_other_item == NULL){
+                cout << "Error: Other item is not of the same type." << endl;
+                return false;
+            }
+
+            if(this->isEmpty() || (typecast_other_item->isEmpty())){
+                cout << "Error: Either or both items are empty" << endl;
+                return false;
+            }
+
+            //Now checking if all components of the other item is larger than the current
+            if(sort_criteria != NULL){
+                const group1_sorting_criteria* typecasted_sort = typecastItem(sort_criteria, &group1_crit);
+                if(typecasted_sort != NULL){
+                    //Copying the criteria for each component into a local copy group1_crit
+                    group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_year_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_month_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_day_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+
+                    group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
+                }
+            }
+
+            //Comparing the family name first
+            //Step1: Extracting the pointer from other
+            const string_item* the_other_LName_ptr = typecast_other_item->getPointer2_LName();
+            //Step2: Check if it is larger than the string part of the criteria
+            result_LName_larger = last_Name.IsLargerThan(the_other_LName_ptr, &(group1_crit.fam_name_crit));
+            //Step3: Check if it is equal to the string part of the criteria
+            result_LName_equal = last_Name.IsEqualTo(the_other_LName_ptr, &(group1_crit.fam_name_crit));
+
+            //Will do the same as above when DoB is finished
+
+            
+            if(group1_crit.getSortFamFirst()){
+                //The last name component is larger
+                if(result_LName_larger){
+                    return true;
+                } 
+                //If last names are equal let the DoB decide
+                if(result_LName_equal){
+                    return result_DoB_larger;
+                }
+                //The DoB component is smaller
+                return false;
+            }
+            //The DoB is sorted first
+            if(result_DoB_larger){
+                return true; //DoB is larger
+            }
+            if(result_DoB_equal){
+                return result_LName_larger; //DoB are equal so let last name decide
+            }
+            //The DoB is smaller 
             return false;
         }	
+
 	    virtual bool IsEqualTo(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
-            return false;
+            bool result_LName_equal, result_DoB_equal;
+            group1_sorting_criteria group1_crit;
+
+            if(other_item == NULL){return false;}
+
+            const group1_item* typecast_other_item = typecastItem(other_item, this);
+
+            if(typecast_other_item == NULL){
+                cout << "Error: Other item is not of the same type." << endl;
+                return false;
+            }
+
+            if(this->isEmpty() || (typecast_other_item->isEmpty())){
+                cout << "Error: Either or both items are empty" << endl;
+                return false;
+            }
+
+            //Now checking if all components of the other item is larger than the current
+            if(sort_criteria != NULL){
+                const group1_sorting_criteria* typecasted_sort = typecastItem(sort_criteria, &group1_crit);
+                if(typecasted_sort != NULL){
+                    //Copying the criteria for each component into a local copy group1_crit
+                    group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_year_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_month_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_day_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+
+                    group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
+                    group1_crit.setEqualityOption(typecasted_sort->getEqualityOption());
+                }
+            }
+
+            //Comparing the family name first
+            //Step1: Extracting the pointer from other
+            const string_item* the_other_LName_ptr = typecast_other_item->getPointer2_LName();
+            //Step2: Check if it is equal to the string part of the criteria
+            result_LName_equal = last_Name.IsEqualTo(the_other_LName_ptr, &(group1_crit.fam_name_crit));
+
+
+            //Will compare the DoB when it is done.
+
+            switch(group1_crit.getEqualityOption()){
+                case group1_sorting_criteria::family_name:
+                    return result_LName_equal;
+                    break;
+                case group1_sorting_criteria::DoB:
+                    return result_DoB_equal;
+                    break;
+                case group1_sorting_criteria::both_equal:
+                    return (result_LName_equal&&result_DoB_equal);
+                    break;
+                default:
+                    cout << "Error: Options not set." << endl;
+                    return false;
+            }
         }
 };
 
