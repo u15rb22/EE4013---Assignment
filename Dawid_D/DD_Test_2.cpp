@@ -76,6 +76,9 @@ int main()
     //test2_InputIndiv();
 
     test1_randGen();
+    test1_randGen();
+    test1_randGen();
+    test1_randGen();
 
     return 0;
 }
