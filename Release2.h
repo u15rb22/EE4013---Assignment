@@ -3,6 +3,7 @@
 
 #include "arrayItem_v3.h"
 #include "generalArraywithTemplate_v2.h"
+#include "Dawid_D/Dates_R2_DD.h"        //inludes Dates class
 
 class string_item : public basic_item{
     protected:
@@ -358,6 +359,7 @@ class group1_item : public basic_item{
         string_item first_Name;
         string_item last_Name;
         year_of_enrolment yearOfEnrolement;
+        dates_composite_Item DateOfBirth;           // added the DoB , * enter from keyboard not Yet added
         //Add the other items when you can
     public:
         group1_item(){
@@ -367,6 +369,8 @@ class group1_item : public basic_item{
 		    the_name += last_Name.getName();
 		    the_name += "; ";
             the_name += yearOfEnrolement.getName();
+            the_name += "; ";
+            the_name += DateOfBirth.getName();
             the_name += ".";
             //Add other fields when you can
 		    itemTypeName = the_name;
@@ -389,6 +393,11 @@ class group1_item : public basic_item{
             const year_of_enrolment* the_ptr = &yearOfEnrolement;
             return the_ptr;
         }
+
+        const dates_composite_Item* getPointer2_DoB() const{
+            const dates_composite_Item* the_ptr = &DateOfBirth;
+            return the_ptr;
+        }
         
         virtual void printItemOnScreen() const{
             if(isEmpty()){
@@ -399,6 +408,7 @@ class group1_item : public basic_item{
                 cout << "Last Name: " << last_Name.returnString() << endl;
                 cout << "Year of enrolement: " << yearOfEnrolement.getItemVal() << endl;
                 //Add the other data when you can
+                cout << "Date of Birth:  " << DateOfBirth.getDayVal() << " - " << DateOfBirth.getMonthVal() << " - " << DateOfBirth.getYearVal() << endl;
             }
         }
 
@@ -430,6 +440,7 @@ class group1_item : public basic_item{
 		    	first_Name.generateRandomItem();
 			    last_Name.generateRandomItem();
                 yearOfEnrolement.generateRandomItem();
+                DateOfBirth.generateRandomItem();
 			    //Add other fields when you can
 			    empty = false;
 		    }

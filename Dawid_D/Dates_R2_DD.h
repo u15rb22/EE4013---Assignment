@@ -385,6 +385,21 @@ class dates_composite_Item: public basic_item{
 
         ~dates_composite_Item(){;}
 
+        virtual int getYearVal() const 
+        {
+            return Year.getItemVal();
+        }
+
+        virtual int getMonthVal() const 
+        {
+            return Month.getItemVal();
+        }
+
+        virtual int getDayVal() const 
+        {
+            return Day.getItemVal();
+        }
+
         virtual void printItemOnScreen() const
         {
             if(isEmpty())
