@@ -425,7 +425,8 @@ class group1_item : public basic_item{
                 cout << endl;
                 cout << "Enter year of enrolement: " << endl;
                 yearOfEnrolement.enterItemFromKeyboard();
-                //Add other fields when you can
+                cout <<"Enter Date of Birth: " << endl;
+                DateOfBirth.enterItemFromKeyboard();    // Takes year in 1915-2025, Month as val 1-12, and Day as val 1-(28,29,30, or 31) depending on month and year. Rejects non-int entries 
                 empty = false;
             }
         }
