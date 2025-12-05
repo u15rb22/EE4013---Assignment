@@ -9,6 +9,10 @@
 
 #include "R1_DD.h"
 
+// \/ set range for acceptable year Limits,  defualt 110 year range
+#define minYear 1915   
+#define MaxYear 2025
+
 class year_Item: public integer_itemWithLimits{
     protected:
         bool leap_year;
@@ -20,7 +24,7 @@ class year_Item: public integer_itemWithLimits{
         year_Item()
         {
             itemTypeName = "year_item";
-            setLimits(1915,2025); // 110 years should be good 
+            setLimits(minYear,MaxYear); // 110 years should be good 
             leap_year = false; // set dafult as not leap year
         }
 
@@ -249,7 +253,7 @@ class month_Item: public integer_itemWithLimits{
 
 };
 
-class day_Item: public integer_itemWithLimits{  // Scrap class, do inside Dates Class to avoid dublicate variables. 
+class day_Item: public integer_itemWithLimits{  
     protected:
         int month_val;
         bool inLeapYear; 
@@ -318,7 +322,7 @@ class day_Item: public integer_itemWithLimits{  // Scrap class, do inside Dates 
             }
         }
 
-        void generateRandomItem(int monthIn, bool LeapYearIn)
+        virtual void generateRandomItem(int monthIn, bool LeapYearIn)
         {
             if(isLocked())
                 cout << "Error in generateRandomItem(int,bool): Item is Locked." << endl;
@@ -365,8 +369,27 @@ class day_Item: public integer_itemWithLimits{  // Scrap class, do inside Dates 
                     } 
 
                 }
+                setDays();
                 empty = false;
             }
+        }
+
+        virtual void enterValueFromKeyboard(int monthIn, bool LeapYearIn)
+        {
+            if(isLocked())
+                cout << "Error in enterValuefromkeyboard(int,bool): Item is Locked." << endl;
+            else
+            {
+                if((monthIn<=12)&&(monthIn>=1))
+                {
+                    month_val = monthIn; 
+                    inLeapYear = LeapYearIn;
+                    enterValueFromKeyboard();
+                }
+                else
+                    cout << "Error in enterValuefromkeyboard(int,bool): Invalid passed month value ." << endl;
+            }
+            
         }
 
 };
@@ -432,7 +455,15 @@ class dates_composite_Item: public basic_item{
         
 	virtual void enterItemFromKeyboard()
     {
-        ;
+        if(isLocked())
+                cout << "Error in enterItemfromKeyboard: Item is Locked." << endl;
+            else 
+            {
+                Year.enterValueFromKeyboard();
+                Month.enterValueFromKeyboard();
+                Day.enterValueFromKeyboard(Month.getItemVal(),Year.GetLeapStatues());
+                empty = false;
+            }
     }
 
 

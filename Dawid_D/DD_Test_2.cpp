@@ -70,15 +70,27 @@ void test2_InputIndiv()
 
 }
 
+void test2_DateInpu()
+{
+    dates_composite_Item Date; 
+
+    Date.printItemTypeName();
+    Date.printItemOnScreen(); 
+    Date.enterItemFromKeyboard();
+    Date.printItemOnScreen();
+}
+
 int main()
 {
     //test1_randGenIndiv();
     //test2_InputIndiv();
 
-    test1_randGen();
-    test1_randGen();
-    test1_randGen();
-    test1_randGen();
+    //test1_randGen();
+    //test1_randGen();
+    //test1_randGen();
+    //test1_randGen();
+
+    test2_DateInpu();
 
     return 0;
 }
