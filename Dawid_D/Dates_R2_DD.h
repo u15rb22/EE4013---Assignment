@@ -17,6 +17,14 @@ class year_Item: public integer_itemWithLimits{
     protected:
         bool leap_year;
 
+        void updateMaxYear(int YoE)  
+        {
+            if(isLocked())
+                cout << "Item is Locked." << endl;
+            else 
+                setLimits(minYear, (YoE));
+        }
+
     private:
         using integer_itemWithLimits::enterItemFromKeyboard;
         using integer_itemWithLimits::enterLimitsFromKeyboard;
@@ -94,7 +102,7 @@ class year_Item: public integer_itemWithLimits{
                             Valid_int = true; 
                         else
                         {
-                            cout << "*Warning*: year must fall within set limits :"<< max_val << "-" << min_val << endl << endl;  
+                            cout << "*Warning*: year must fall within set limits :"<< min_val << "-" << max_val << endl << endl;  
                         } 
                     } 
                 }
@@ -102,6 +110,12 @@ class year_Item: public integer_itemWithLimits{
                 leap_year = is_leapYear(item_value);
                 empty = false;
             }
+        }
+
+        virtual void enterValueFromKeyboard(int YoE)
+        {
+            updateMaxYear(YoE - 18);        // assume must be min 18 to enrol 
+            enterValueFromKeyboard(); 
         }
 
         virtual void generateRandomItem()// generates random Year
@@ -113,6 +127,12 @@ class year_Item: public integer_itemWithLimits{
                 integer_itemWithLimits::generateRandomItem();
                 leap_year = is_leapYear(item_value);
             }
+        }
+
+        virtual void generateRandomItem(int YoE)// generates random Year not exceeding YoE
+        {
+            updateMaxYear(YoE-18);  // assume must be min 18 to enrol 
+            generateRandomItem();
         }
         
 
@@ -317,8 +337,8 @@ class day_Item: public integer_itemWithLimits{
                 cout << "Error in generateRandomitem: Item is Locked." << endl;
             else 
             {
-                integer_itemWithLimits::generateRandomItem();
                 setDays();
+                integer_itemWithLimits::generateRandomItem();
             }
         }
 
@@ -347,6 +367,7 @@ class day_Item: public integer_itemWithLimits{
             else
             {
                 bool Valid_int = false;
+                setDays();
                 while(!Valid_int)
                 {
 		            cout << "Insert number of Day then hit enter." << endl;
@@ -369,7 +390,7 @@ class day_Item: public integer_itemWithLimits{
                     } 
 
                 }
-                setDays();
+                
                 empty = false;
             }
         }
@@ -451,6 +472,20 @@ class dates_composite_Item: public basic_item{
             }
         }
 
+        virtual void generateRandomItem(int YoE) // created to prevent DoB's after YoE
+        {
+            if(isLocked())
+                cout << "Error in generateRandomitem: Item is Locked." << endl;
+            else 
+            {
+                //Year.
+                Year.generateRandomItem(YoE);
+                Month.generateRandomItem();
+                Day.generateRandomItem(Month.getItemVal(),Year.GetLeapStatues());
+                empty = false;
+            }
+        }
+
 
         
 	virtual void enterItemFromKeyboard()
@@ -460,6 +495,19 @@ class dates_composite_Item: public basic_item{
             else 
             {
                 Year.enterValueFromKeyboard();
+                Month.enterValueFromKeyboard();
+                Day.enterValueFromKeyboard(Month.getItemVal(),Year.GetLeapStatues());
+                empty = false;
+            }
+    }
+
+    virtual void enterItemFromKeyboard(int YoE)
+    {
+        if(isLocked())
+                cout << "Error in enterItemfromKeyboard: Item is Locked." << endl;
+            else 
+            {
+                Year.enterValueFromKeyboard(YoE);
                 Month.enterValueFromKeyboard();
                 Day.enterValueFromKeyboard(Month.getItemVal(),Year.GetLeapStatues());
                 empty = false;

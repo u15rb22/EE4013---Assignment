@@ -424,7 +424,7 @@ class group1_item : public basic_item{
                 cout << "Enter year of enrolement: " << endl;
                 yearOfEnrolement.enterItemFromKeyboard();
                 cout <<"Enter Date of Birth: " << endl;
-                DateOfBirth.enterItemFromKeyboard();    // Takes year in 1915-2025, Month as val 1-12, and Day as val 1-(28,29,30, or 31) depending on month and year. Rejects non-int entries 
+                DateOfBirth.enterItemFromKeyboard(yearOfEnrolement.getItemVal());    // Takes year in 1915-2025, Month as val 1-12, and Day as val 1-(28,29,30, or 31) depending on month and year. Rejects non-int entries 
                 empty = false;
             }
         }
@@ -439,8 +439,7 @@ class group1_item : public basic_item{
 		    	first_Name.generateRandomItem();
 			    last_Name.generateRandomItem();
                 yearOfEnrolement.generateRandomItem();
-                DateOfBirth.generateRandomItem();
-			    //Add other fields when you can
+                DateOfBirth.generateRandomItem(yearOfEnrolement.getItemVal());
 			    empty = false;
 		    }
 	    }
