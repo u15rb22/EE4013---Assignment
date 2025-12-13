@@ -7,6 +7,8 @@
 #ifndef DATES_R2_DD_H 
 #define DATES_R2_DD_H
 
+#include "../ArrayItem_v3.h"
+#include "../generalArraywithTemplate_v2.h"
 #include "R1_DD.h"
 
 // \/ set range for acceptable year Limits,  defualt 110 year range
@@ -429,6 +431,22 @@ class dates_composite_Item: public basic_item{
 
         ~dates_composite_Item(){;}
 
+
+        const year_Item* getPointer2_year() const{
+            const year_Item* the_ptr = &Year;
+		    return the_ptr;
+        }
+
+        const month_Item* getPointer2_month() const{
+            const month_Item* the_ptr = &Month;
+		    return the_ptr;
+        }
+
+        const day_Item* getPointer2_day() const{
+            const day_Item* the_ptr = &Day;
+		    return the_ptr;
+        }
+        
         virtual int getYearVal() const 
         {
             return Year.getItemVal();
@@ -514,18 +532,92 @@ class dates_composite_Item: public basic_item{
             }
     }
 
-
 	virtual bool compatibilityCheck(const basic_item* other_item) const
     {
-        ;
+        //True if the same, false if not
+            bool result = false;
+
+            //Check to see if the other item is allocated, if not skip
+            if(other_item != NULL){
+
+                //Type casting the other item to confirm its the same as the string
+                const dates_composite_Item* typecast_OtherItem = typecastItem(other_item, this);
+
+                if(typecast_OtherItem != NULL){result = true;}
+                else{
+                    cout << "Check failed for Item type: " << itemTypeName << endl;
+                }
+            }
+
+            return result;
     }
 	virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const 
-    {
-        ;
+    {   
+        bool result = false;
+
+        //Check if other item is not allocated, if not dont compare
+        if(other_item == NULL){return false;}
+
+        //Type cast the other item
+        const dates_composite_Item* typecast_OtherItem = typecastItem(other_item, this);
+
+        //Check if the items are the same type
+        if(typecast_OtherItem == NULL){
+            cout << "Error: Other item is not of the same string type." << endl;
+            return false;
+        }
+
+        //Return true if the year is larger than the other year
+        if(Year.getItemVal() > (typecast_OtherItem->Year.getItemVal())){
+            result = true;
+        }
+        else if(Year.getItemVal() == (typecast_OtherItem->Year.getItemVal())){
+            //Return true if month is larger than other month
+            if(Month.getItemVal() > (typecast_OtherItem->Month.getItemVal())){
+                result = true;
+            }
+            else if(Month.getItemVal() == (typecast_OtherItem->Month.getItemVal())){
+                //Return true if the day is larger than the other day
+                if(Day.getItemVal() > (typecast_OtherItem->Day.getItemVal())){
+                    result = true;
+                }
+            }
+        }
+
+            //check if there are sorting options to apply 
+		    if(sort_criteria!=NULL)
+		    {
+			    //if sorting is in descending order the result is reversed 
+			    if(!(sort_criteria->getAscending())){
+                    result=!result;
+                }
+		    }
+            return result;
     }	
 	virtual bool IsEqualTo(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const
     {
-        ;
+        bool result = false;
+
+            //Check if other item is not allocated, if not dont compare
+            if(other_item == NULL){return false;}
+
+            //Type cast the other item
+            const dates_composite_Item* typecast_OtherItem = typecastItem(other_item, this);
+
+            //Check if the items are the same type
+            if(typecast_OtherItem == NULL){
+                cout << "Error: Other item is not of the same string type." << endl;
+                return false;
+            }
+
+            //Return true if the current item is larger than the other item
+            if((Year.getItemVal() == (typecast_OtherItem->Year.getItemVal())) && 
+               (Month.getItemVal() == (typecast_OtherItem->Month.getItemVal())) && 
+               (Day.getItemVal() == (typecast_OtherItem->Day.getItemVal())))
+            {
+                result = true;
+            }
+            return result;
     }	
 
 

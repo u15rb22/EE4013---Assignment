@@ -1,7 +1,7 @@
 #ifndef Release2_h
 #define Release2_h
 
-#include "arrayItem_v3.h"
+#include "ArrayItem_v3.h"
 #include "generalArraywithTemplate_v2.h"
 #include "Dawid_D/Dates_R2_DD.h"        //inludes Dates class
 
@@ -268,15 +268,18 @@ class group1_sorting_criteria : public basic_sort_criteria{
 public:
     enum compsiteEqualityOptions{inf_val=0, family_name, DoB, both_equal, sup_val};
 protected:
-	bool sort_fam_first;	
+	bool sort_fam_first, sort_first_name_first;	
 	compsiteEqualityOptions equlOpt;
 public:
+    basic_sort_criteria first_name_crit;
     basic_sort_criteria fam_name_crit;
+    basic_sort_criteria DoB_crit;
     basic_sort_criteria DoB_year_crit;
     basic_sort_criteria DoB_month_crit;
     basic_sort_criteria DoB_day_crit;
 public:
     group1_sorting_criteria(){sort_fam_first=true; equlOpt=both_equal;}
+    void setSortFNameFirst(bool val){sort_first_name_first=val;}
 	void setSortFamFirst(bool val){sort_fam_first=val;}	
 	bool getSortFamFirst() const {return sort_fam_first;}	
 	void setEqualityOption(compsiteEqualityOptions val)
@@ -285,18 +288,19 @@ public:
 			equlOpt=val;
 	}	
     compsiteEqualityOptions getEqualityOption() const {return equlOpt;}	
-    virtual void setAscending(bool value ){	fam_name_crit.setAscending(value); DoB_year_crit.setAscending(value); DoB_month_crit.setAscending(value); DoB_day_crit.setAscending(value);}
+    virtual void setAscending(bool value ){first_name_crit.setAscending(value);	fam_name_crit.setAscending(value); DoB_year_crit.setAscending(value); DoB_month_crit.setAscending(value); DoB_day_crit.setAscending(value);}
     virtual void setOptionFromKeyboard()
     {
         cout << "Enter sort option for compsite_item: " << endl;
 		cout << " Enter Sort option for Date of Birth year  : "; DoB_year_crit.setOptionFromKeyboard();
         cout << " Enter Sort option for Date of Birth month : "; DoB_year_crit.setOptionFromKeyboard();
         cout << " Enter Sort option for Date of Birth day   : "; DoB_year_crit.setOptionFromKeyboard();
-		cout << " Enter Sort option for Family Name         : "; fam_name_crit.setOptionFromKeyboard();
+		cout << " Enter Sort option for First Name          : "; first_name_crit.setOptionFromKeyboard();
+        cout << " Enter Sort option for Family Name         : "; fam_name_crit.setOptionFromKeyboard();
 
         char sortopt;
-		cout << " Choose option to compare Date of Birth first (and then Family name) when sorting two items:" << endl;
-		cout << " Type Y and press ENTER (otherwise Family name is compared first): ";
+		cout << " Choose option to compare Family first (and then Date of Birth) when sorting two items:" << endl;
+		cout << " Type Y and press ENTER (otherwise Date of Birth is compared first): ";
         cin >> sortopt;
 		if( (sortopt=='y') || (sortopt == 'Y') )
 			setSortFamFirst(true);
@@ -397,7 +401,7 @@ class group1_item : public basic_item{
             const dates_composite_Item* the_ptr = &DateOfBirth;
             return the_ptr;
         }
-        
+
         virtual void printItemOnScreen() const{
             if(isEmpty()){
                 cout << "Item is empty." << endl;
@@ -486,9 +490,7 @@ class group1_item : public basic_item{
                 if(typecasted_sort != NULL){
                     //Copying the criteria for each component into a local copy group1_crit
                     group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_year_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_month_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_day_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_crit.setAscending(typecasted_sort->DoB_year_crit.getAscending());
 
                     group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
                 }
@@ -502,8 +504,12 @@ class group1_item : public basic_item{
             //Step3: Check if it is equal to the string part of the criteria
             result_LName_equal = last_Name.IsEqualTo(the_other_LName_ptr, &(group1_crit.fam_name_crit));
 
-            //Will do the same as above when DoB is finished
-
+            //Step1: Extracting the pointer from other
+            const dates_composite_Item* the_other_DoB_ptr = typecast_other_item->getPointer2_DoB();
+            //Step2: Check if it is larger than the DoB part of the criteria
+            result_DoB_larger = DateOfBirth.IsLargerThan(the_other_DoB_ptr, &(group1_crit.DoB_crit));
+            //Step3: Check if it is equal to the DOB of the criteria
+            result_DoB_equal = DateOfBirth.IsEqualTo(the_other_DoB_ptr);
             
             if(group1_crit.getSortFamFirst()){
                 //The last name component is larger
@@ -552,9 +558,7 @@ class group1_item : public basic_item{
                 if(typecasted_sort != NULL){
                     //Copying the criteria for each component into a local copy group1_crit
                     group1_crit.fam_name_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_year_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_month_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
-                    group1_crit.DoB_day_crit.setAscending(typecasted_sort->fam_name_crit.getAscending());
+                    group1_crit.DoB_crit.setAscending(typecasted_sort->DoB_year_crit.getAscending());
 
                     group1_crit.setSortFamFirst(typecasted_sort->getSortFamFirst());
                     group1_crit.setEqualityOption(typecasted_sort->getEqualityOption());
@@ -567,8 +571,10 @@ class group1_item : public basic_item{
             //Step2: Check if it is equal to the string part of the criteria
             result_LName_equal = last_Name.IsEqualTo(the_other_LName_ptr, &(group1_crit.fam_name_crit));
 
-
-            //Will compare the DoB when it is done.
+            //Step1: Extracting the pointer from other
+            const dates_composite_Item* the_other_DoB_ptr = typecast_other_item->getPointer2_DoB();
+            //Step2: Check if it is larger than the DoB part of the criteria
+            result_DoB_equal = DateOfBirth.IsEqualTo(the_other_DoB_ptr);
 
             switch(group1_crit.getEqualityOption()){
                 case group1_sorting_criteria::family_name:

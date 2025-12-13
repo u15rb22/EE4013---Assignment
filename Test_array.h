@@ -104,6 +104,7 @@ void testGroup1Item(){
 	testItems.printArrayOnScreen();
 	//
 	cout << "Test input funciton:" << endl;
+	//testItems.enterArrayFromKeyboard();
 	testItems.fillRandomValueArray();
 	testItems.printArrayOnScreen();
 	//
