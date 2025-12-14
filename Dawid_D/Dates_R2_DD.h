@@ -431,22 +431,6 @@ class dates_composite_Item: public basic_item{
 
         ~dates_composite_Item(){;}
 
-
-        const year_Item* getPointer2_year() const{
-            const year_Item* the_ptr = &Year;
-		    return the_ptr;
-        }
-
-        const month_Item* getPointer2_month() const{
-            const month_Item* the_ptr = &Month;
-		    return the_ptr;
-        }
-
-        const day_Item* getPointer2_day() const{
-            const day_Item* the_ptr = &Day;
-		    return the_ptr;
-        }
-        
         virtual int getYearVal() const 
         {
             return Year.getItemVal();
