@@ -50,7 +50,7 @@ void testStringClass(string_item* item_ptr){
 	cout << endl;
 
 	cout << "Function to clear string item." << endl;
-	item_ptr->clearString();
+	//item_ptr->clearString();
 	cout << endl;
 
 	cout << "Function to generate random item." << endl;
