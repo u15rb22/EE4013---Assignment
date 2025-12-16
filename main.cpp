@@ -1,6 +1,6 @@
 #include "Test_items.h"
 #include "Test_array.h"
-
+#include "Release4.h"
 
 int main(int argc, char const *argv[])
 {
@@ -8,11 +8,12 @@ int main(int argc, char const *argv[])
 
 	//test_IndividualItem();
 	//testArrayFunctions_part1();	
-	//testArrayFunctions_part2();
+	//testArrayFunctions_psart2();
 	//testArrayFunctions_withRange();	
 	//testArrayWithLimitsRyan();
 	//testArrayWithStrings();
-	testGroup1Item();
-
+	//testGroup1Item();
+	
+	testLinkedList();	
 	return 0;
 }

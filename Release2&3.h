@@ -598,6 +598,7 @@ class group1_item : public basic_item{
 
             return result;
         }
+        
 	    virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const{
             bool result_FName_larger, result_FName_equal, result_LName_larger, result_DoB_larger, result_LName_equal, result_DoB_equal;
             group1_sorting_criteria group1_crit;

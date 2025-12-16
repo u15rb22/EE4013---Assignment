@@ -9,6 +9,8 @@
 
 #include "Release2&3.h"
 
+#include "Release4.h"
+
 // array of integer_item
 typedef items_array <integer_item> int_item_array;
 
@@ -26,6 +28,7 @@ typedef items_array <string_item> string_array;
 
 //Array of group1_item
 typedef items_array <group1_item> group1_array;
+
 
 // specializing a function (example)
 /*

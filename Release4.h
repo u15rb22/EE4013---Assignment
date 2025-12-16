@@ -4,95 +4,65 @@
 #include "Release2&3.h"
 #include "generalArraywithTemplate_v2.h"
 
-class Node{
-    public: 
-        group1_item data;
-        Node *next;
+#include <list>
 
-        //Constructor
-        Node(){
-            next = NULL;
-        }
-
-        Node(group1_item inp){
-            this->data = inp;
-            this->next = NULL;
-        }
-};
+using namespace std;
 
 class linkedlist: public basic_item{
-    Node* head;
-
+    private:
+        //This creates a list of group1_items as container
+        list<group1_item> container;
     public:
         linkedlist(){
-            head = NULL;
             itemTypeName = "Linked_List_of_group1_items.";
         }
 
-        ~linkedlist() {
-            Node* current = head;
-            while (current) {
-                Node* next = current->next;
-                delete current;
-                current = next;
-            }
-        }
-
         void insertAtHead(group1_item inp){
-
             //Create a new node
-            Node *newNode = new Node(inp);
-
-            //Assign to the head of the list if empty
-            if(head == NULL){
-                head = newNode;
-                return;
-            }
-
-            //Insert the new linked list at the head
-            newNode->next = this->head;
-            this->head = newNode;
+            container.push_front(inp);
         }
 
         void insertAtTail(group1_item inp){
-            Node* newNode = new Node(inp);
-
-            if(head == NULL){
-                head = newNode;
-                return;
-            }
-
-            Node* temp = head;
-            while(temp->next != NULL){
-                temp = temp->next;
-            }
-            temp->next = newNode;
+            //Create a new node
+            container.push_back(inp);
         }
 
-        void printItemOnScreen() const {
-            Node *temp = head;
+        void removeFromHead(){
+            if(!container.empty()){
+                container.pop_front();
+            }
+        }
 
+        void removeFromTail(){
+            if(!container.empty()){
+                container.pop_back();
+            }
+        }
+
+        virtual void printItemOnScreen() const override {
             //Check for empty list
-            if (head == NULL) {
+            if (container.empty()) {
                 cout << "Error: List empty" << endl;
                 return;
             }
 
             //Traverse the list
-            while (temp != NULL) {
-                temp->data.printItemOnScreen();
-                temp = temp->next;
+            //Const group1_item &item creates a read only reference 
+            //To each of the group1_items in the container
+            // : container will iterate through all the group1_items in the list
+            for(const group1_item &item : container) {
+                item.printItemOnScreen();
             }
         }
 
-        void enterItemFromKeyBoard(){
+        virtual void enterItemFromKeyboard() override{
             group1_item newItem;
             cout << "Enter new item: " << endl;
             newItem.enterItemFromKeyboard();
 
             char choice;
             cout << "Insert at the head or tail of the list: "<< endl;
-            cout << "Type H for head or T for tails." << endl;
+            cout << "Type H for head or T for tails:" << endl;
             cin >> choice;
 
             if(choice == 'H' || choice == 'h'){
@@ -101,9 +71,51 @@ class linkedlist: public basic_item{
             else{
                 insertAtTail(newItem);
             }
-
         }
 
+        virtual void generateRandomItem() override {
+            group1_item newItem;
+
+            newItem.generateRandomItem();
+
+            char choice;
+            cout << "Insert at the head or tail of the list: "<< endl;
+            cout << "Type H for head or T for tails:" << endl;
+            cin >> choice;
+
+            if(choice == 'H' || choice == 'h'){
+                insertAtHead(newItem);
+            }
+            else{
+                insertAtTail(newItem);
+            }
+        }
+
+        virtual bool compatibilityCheck(const basic_item* other_item) const override{
+            //True if the same, false if not
+            bool result = false;
+
+            //Check to see if the other item is allocated, if not skip
+            if(other_item != NULL){
+                //Type casting the other item to confirm its the same as the string
+                const linkedlist* typecast_OtherItem = typecastItem(other_item, this);
+
+                if(typecast_OtherItem != NULL){result = true;}
+                else{
+                    cout << "Check failed for Item type: " << itemTypeName << endl;
+                }
+            }
+
+            return result;
+        }
+
+        virtual bool IsLargerThan(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const override{
+            return false;
+        }
+
+        virtual bool IsEqualTo(const basic_item* other_item, const basic_sort_criteria* sort_criteria=NULL) const override{
+            return false;
+        }
 };
 
 #endif

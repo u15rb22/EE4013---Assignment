@@ -2,6 +2,7 @@
 #include "arrayItem_v3.h"
 #include "RB_R1.h"
 #include "Release2&3.h"
+#include "Release4.h"
 
 //Release 1 Testing - Ryan
 void testRangeFunctions(integer_itemWithLimits_Ryan* itemWithRange_ptr){
@@ -160,4 +161,22 @@ void test_IndividualItem()
 	//testItemFunctions_part2(&testitem1, &testitem1a, &testsort_crit);
 	//cout << endl;
 
+}
+
+void testLinkedList(){
+	linkedlist myList;
+
+	myList.printItemOnScreen();
+
+	myList.enterItemFromKeyboard();
+
+	myList.enterItemFromKeyboard();
+
+	myList.enterItemFromKeyboard();
+
+	myList.printItemOnScreen();
+
+	myList.removeFromHead();
+
+	myList.printItemOnScreen();
 }
